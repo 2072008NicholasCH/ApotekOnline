@@ -27,7 +27,7 @@ if (!isset($_SESSION['web_user'])) {
     <meta name="author" content="Nicholas CH - 2072008">
     <meta name="keywords" content="Colorlib Templates">
 
-    <title>PWL-Prak09</title>
+    <title>Apotek Online</title>
 
     <!-- Icons font CSS -->
     <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
@@ -57,7 +57,7 @@ if (!isset($_SESSION['web_user'])) {
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                                <a class="navbar-brand fa-light">Pertemuan 09</a>
+                                <a class="navbar-brand fa-light">Apotek Online</a>
                             </li>
                             <li class="nav-item">
                                 <a class="navbar-brand fa-light" href="?ahref=home">Home</a>
