@@ -10,7 +10,7 @@
 
 <form method="post">
     <div class="form-group">
-        <label for="employeeId">Employee ID</label>
+        <label for="employeeId">User ID</label>
         <input type="text" class="form-control" id="employeeId" name="txtId" required autofocus placeholder="example@email.com">
     </div>
     <div class="form-group">
