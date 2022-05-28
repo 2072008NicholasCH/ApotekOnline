@@ -7,9 +7,9 @@
  */
 
 session_start();
-include_once '';
-include_once '';
-include_once '';
+// include_once '';
+// include_once '';
+// include_once '';
 
 if (!isset($_SESSION['web_user'])) {
     $_SESSION['web_user'] = false;
@@ -79,32 +79,33 @@ if (!isset($_SESSION['web_user'])) {
                 case 'home':
                     include_once 'view/view-home.php';
                     break;
-                case 'supplier':
-                    $userController = new SupplierController();
-                    $userController->index();
-                    break;
-                case 'product':
-                    $userController = new ProductController();
-                    $userController->index();
-                    break;
-                case 'upsupplier':
-                    $userController = new SupplierController();
-                    $userController->updateSupplier();
-                    break;
-                case 'upproduct':
-                    $userController = new ProductController();
-                    $userController->updateProduct();
-                    break;
-                case 'logout':
-                    $userController = new UserLabController();
-                    $userController->logout();
-                    break;
+                // case 'supplier':
+                //     $userController = new SupplierController();
+                //     $userController->index();
+                //     break;
+                // case 'product':
+                //     $userController = new ProductController();
+                //     $userController->index();
+                //     break;
+                // case 'upsupplier':
+                //     $userController = new SupplierController();
+                //     $userController->updateSupplier();
+                //     break;
+                // case 'upproduct':
+                //     $userController = new ProductController();
+                //     $userController->updateProduct();
+                //     break;
+                // case 'logout':
+                //     $userController = new UserLabController();
+                //     $userController->logout();
+                //     break;
                 default:
                     include_once 'view/view-home.php';
             }
         } else {
-            $userController = new UserLabController();
-            $userController->index();
+            // $userController = new UserLabController();
+            // $userController->index();
+            include_once 'view/login-view.php';
         }
         ?>
     </div>
