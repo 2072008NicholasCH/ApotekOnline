@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0631a461-2a14-4a6d-a00c-f098fdbff6a6" name="Changes" comment="" />
+    <list default="true" id="0631a461-2a14-4a6d-a00c-f098fdbff6a6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/entity/Obat.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/entity/Obat_has_Penjualan.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/entity/Penjualan.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/entity/Supplier.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/entity/Transaksi.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,7 +32,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../pw2a-asg08-juansterling" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../pw2-q1-juansterling/entity" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -38,6 +45,7 @@
       <updated>1653552542460</updated>
       <workItem from="1653552543834" duration="3006000" />
       <workItem from="1653710299388" duration="430000" />
+      <workItem from="1653710756167" duration="1300000" />
     </task>
     <servers />
   </component>
