@@ -79,33 +79,31 @@ if (!isset($_SESSION['web_user'])) {
                 case 'home':
                     include_once 'view/view-home.php';
                     break;
-                // case 'supplier':
-                //     $userController = new SupplierController();
-                //     $userController->index();
+                // case 'genre':
+                //     include_once 'view/view-Genre.php';
                 //     break;
-                // case 'product':
-                //     $userController = new ProductController();
-                //     $userController->index();
+                // case 'movie':
+                //     include_once 'view/view-Movie.php';
                 //     break;
-                // case 'upsupplier':
-                //     $userController = new SupplierController();
-                //     $userController->updateSupplier();
+                // case 'upGenre':
+                //     include_once 'view/view-update-genre.php';
                 //     break;
-                // case 'upproduct':
-                //     $userController = new ProductController();
-                //     $userController->updateProduct();
+                // case 'upMovie':
+                //     include_once 'view/view-update-movie.php';
                 //     break;
-                // case 'logout':
-                //     $userController = new UserLabController();
-                //     $userController->logout();
+                // case 'addMovie':
+                //     include_once 'view/view-add-movie.php';
                 //     break;
+                case 'logout':
+                    session_unset();
+                    session_destroy();
+                    header('location:index.php');
+                    break;
                 default:
                     include_once 'view/view-home.php';
             }
         } else {
-            // $userController = new UserLabController();
-            // $userController->index();
-            include_once 'view/login-view.php';
+            include_once 'view/view-login.php';
         }
         ?>
     </div>
