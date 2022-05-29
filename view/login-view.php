@@ -16,7 +16,7 @@ if (isset($loginSubmitted)) {
     $result = $userDao->userLogin($id, $md5);
     if ($result->getEmail() == $id) {
         $_SESSION['web_user'] = true;
-        $_SESSION['web_user_full_name'] = $result->getName();
+        $_SESSION['web_user_full_name'] = $result->getFirstName() + $result->getLastName();
         header('location:index.php');
     } else {
         echo '<div class="bg-warning">Invalid ID or Password</div>';
