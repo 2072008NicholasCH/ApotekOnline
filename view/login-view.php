@@ -6,7 +6,6 @@
  * @author Kevin Laurence 2072030
  */
 
-}
 ?>
 <!-- <div class="container">
     <form method="post">
