@@ -9,6 +9,12 @@
 session_start();
 include_once 'util/PDOUtil.php';
 include_once 'entity/User.php';
+include_once 'entity/Obat.php';
+include_once 'entity/Obat_has_Penjualan.php';
+include_once 'entity/Penjualan.php';
+include_once 'entity/Supplier.php';
+include_once 'entity/Transaksi.php';
+include_once 'entity/Obat.php';
 include_once 'dao/UserDaoImpl.php';
 include_once 'controller/UserController.php';
 
@@ -49,37 +55,45 @@ if (!isset($_SESSION['web_user'])) {
 </head>
 
 <body>
-    <div class="container">
-        <?php
-        if ($_SESSION['web_user']) {
-        ?>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div class="container-fluid">
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <?php
+    if ($_SESSION['web_user']) {
+    ?>
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: black;">
+            <div class="container-fluid">
+                <a class="navbar-brand fa-solid mx-3" href="?ahef=home">Apotek Online</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                                <a class="navbar-brand fa-light">Apotek Online</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="navbar-brand fa-light" href="?ahref=home">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="navbar-brand fa-light" href="?ahref=supplier">Supplier</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="navbar-brand fa-light" style="font-size:x-large;" href="?ahref=product">Product</a>
-                            </li>
-                        </ul>
-                        <a class="btn btn-danger my-2 my-sm-0" href="?ahref=logout">Logout</a>
-                    </div>
+                            <a class="navbar-brand fa-light" style="font-size:x-large;" aria-current="page" href="?ahref=home">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="navbar-brand fa-light" style="font-size:x-large;" href="?ahref=supplier">Supplier</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="navbar-brand fa-light" style="font-size:x-large;" href="?ahref=product">Product</a>
+                        </li>
+                    </ul>
+                    <a class="btn btn-danger my-2 my-sm-0" role="button" onclick="logOut()">Sign out</a>
+                    <script>
+                        function logOut() {
+                            const confirm = window.confirm("Are you sure want to sign out?");
+                            if (confirm) {
+                                window.location = "index.php?ahref=logout";
+                            }
+                        }
+                    </script>
                 </div>
-            </nav>
-        <?php
-            $menu = filter_input(INPUT_GET, 'ahref');
-            switch ($menu) {
-                case 'home':
-                    include_once 'view/home-view.php';
-                    break;
+            </div>
+        </nav>
+    <?php
+        $menu = filter_input(INPUT_GET, 'ahref');
+        switch ($menu) {
+            case 'home':
+                include_once 'view/home-view.php';
+                break;
                 // case 'genre':
                 //     include_once 'view/view-Genre.php';
                 //     break;
@@ -95,19 +109,19 @@ if (!isset($_SESSION['web_user'])) {
                 // case 'addMovie':
                 //     include_once 'view/view-add-movie.php';
                 //     break;
-                case 'logout':
-                    session_unset();
-                    session_destroy();
-                    header('location:index.php');
-                    break;
-                default:
-                    include_once 'view/home-view.php';
-            }
-        } else {
-            include_once 'view/login-view.php';
+            case 'logout':
+                session_unset();
+                session_destroy();
+                header('location:index.php');
+                break;
+            default:
+                include_once 'view/home-view.php';
         }
-        ?>
-    </div>
+    } else {
+        $userController = new UserController();
+        $userController->index();
+    }
+    ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 

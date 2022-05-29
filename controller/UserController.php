@@ -25,8 +25,8 @@ class UserController
 
             $result = $this->userDao->userLogin($email, $password);
             if ($result->getEmail() == $email) {
-                $_SESSION['user'] = true;
-                $_SESSION['web_user_full_name'] = $result->getName();
+                $_SESSION['web_user'] = true;
+                $_SESSION['web_user_full_name'] = $result->getFirstName() . " " . $result->getLastName();
                 $_SESSION['role'] = $result->getRole();
                 header('location:index.php');
             } else {
