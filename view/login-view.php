@@ -5,22 +5,7 @@
  * @author Juan Sterling 2072009
  * @author Kevin Laurence 2072030
  */
-$userDao = new UserDaoImpl();
 
-$loginSubmitted = filter_input(INPUT_POST, 'btnLogin');
-if (isset($loginSubmitted)) {
-    $id = filter_input(INPUT_POST, 'txtId');
-    $password = filter_input(INPUT_POST, 'txtPassword');
-    $md5 = md5($password);
-    $user = new User();
-    $result = $userDao->userLogin($id, $md5);
-    if ($result->getEmail() == $id) {
-        $_SESSION['web_user'] = true;
-        $_SESSION['web_user_full_name'] = $result->getFirstName() + $result->getLastName();
-        header('location:index.php');
-    } else {
-        echo '<div class="bg-warning">Invalid ID or Password</div>';
-    }
 }
 ?>
 <!-- <div class="container">
