@@ -77,7 +77,7 @@ if (!isset($_SESSION['web_user'])) {
             $menu = filter_input(INPUT_GET, 'ahref');
             switch ($menu) {
                 case 'home':
-                    include_once 'view/view-home.php';
+                    include_once 'view/home-view.php';
                     break;
                 // case 'genre':
                 //     include_once 'view/view-Genre.php';
@@ -100,10 +100,10 @@ if (!isset($_SESSION['web_user'])) {
                     header('location:index.php');
                     break;
                 default:
-                    include_once 'view/view-home.php';
+                    include_once 'view/home-view.php';
             }
         } else {
-            include_once 'view/view-login.php';
+            include_once 'view/login-view.php';
         }
         ?>
     </div>
