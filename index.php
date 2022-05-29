@@ -7,9 +7,9 @@
  */
 
 session_start();
-// include_once '';
-// include_once '';
-// include_once '';
+include_once 'util/PDOUtil.php';
+include_once 'entity/User.php';
+include_once 'dao/UserDaoImpl.php';
 
 if (!isset($_SESSION['web_user'])) {
     $_SESSION['web_user'] = false;
