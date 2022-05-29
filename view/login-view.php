@@ -5,24 +5,23 @@
  * @author Juan Sterling 2072009
  * @author Kevin Laurence 2072030
  */
+$userDao = new UserDaoImpl();
 
-?>
-
-<?php
-// $loginSubmitted = filter_input(type: INPUT_POST, var_name: 'btnLogin');
-// if (isset($loginSubmitted)) {
-//     $email = filter_input(type: INPUT_POST, var_name: 'txtEmail');
-//     $password = filter_input(INPUT_POST, 'txtPassword');
-//     // $result = userLogin($email, $password);
-//     if ($result[0]['email'] == $email) {
-//         $_SESSION['user'] = true;
-//         $_SESSION['web_user_full_name'] = $result[0]['name'];
-//         $_SESSION['role'] = $result[0]['role'];
-//         header('location:index.php');
-//     } else {
-//         echo '<div class="bg-danger">Invalid ID or Password</div>';
-//     }
-// }
+$loginSubmitted = filter_input(INPUT_POST, 'btnLogin');
+if (isset($loginSubmitted)) {
+    $id = filter_input(INPUT_POST, 'txtId');
+    $password = filter_input(INPUT_POST, 'txtPassword');
+    $md5 = md5($password);
+    $user = new User();
+    $result = $userDao->userLogin($id, $md5);
+    if ($result->getEmail() == $id) {
+        $_SESSION['web_user'] = true;
+        $_SESSION['web_user_full_name'] = $result->getName();
+        header('location:index.php');
+    } else {
+        echo '<div class="bg-warning">Invalid ID or Password</div>';
+    }
+}
 ?>
 <!-- <div class="container">
     <form method="post">
