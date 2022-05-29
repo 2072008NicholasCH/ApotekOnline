@@ -7,57 +7,39 @@
  */
 
 ?>
-<!-- <div class="container">
-    <form method="post">
-        <h1>Login</h1>
-        <div class="form-group">
-            <label for="emailId">Email</label>
-            <input type="email" class="form-control" id="emailId" name="txtEmail" required autofocus>
-        </div>
-        <div class="form-group">
-            <label for="passwordId">Password</label>
-            <input type="password" class="form-control" id="passwordId" name="txtPassword" required>
-        </div>
-        <button type="submit" class="btn btn-primary my-2" name="btnLogin">Login</button>
-    </form>
-</div> -->
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <link rel="stylesheet" href="css/style.css">
-
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>The Easiest Way to Add Input Masks to Your Forms</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
-
-    <div class="container my-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-5">
-                <div class="login-wrap p-5">
-                    <h3 class="text-center mb-4">Login</h3>
-                    <form method="post" action="" class="login-form">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Email" id="emailId" name="txtEmail" required autofocus>
-                        </div>
-                        <div class="form-group d-flex">
-                            <input type="password" class="form-control" placeholder="Password" id="passwordId" name="txtPassword" required>
-                        </div>
-                        <div class="form-group row justify-content-center">
-                            <button type="submit" class="btn btn-primary w-50" name="btnLogin">Sign In</button>
-                        </div>
-                    </form>
-                </div>
+    <div class="registration-form">
+        <form method="post">
+            <div class="form-group">
+                <h3 class="text-center mb-4">Sign In</h3>
             </div>
-        </div
-        >
+            <div class="form-group">
+                <input type="text" class="form-control item" id="email" name="txtEmail" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control item" id="password" name="txtPassword" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <button type="submit" name="btnLogin" class="btn btn-block create-account">Sign In</button>
+            </div>
+        </form>
     </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+    <script src="assets/js/script.js"></script>
 </body>
+
 </html>

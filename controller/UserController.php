@@ -22,8 +22,9 @@ class UserController
         if (isset($loginSubmitted)) {
             $email = filter_input(type: INPUT_POST, var_name: 'txtEmail');
             $password = filter_input(INPUT_POST, 'txtPassword');
-
-            $result = $this->userDao->userLogin($email, $password);
+            $trimEmail = trim($email);
+            $trimPass = trim($password);
+            $result = $this->userDao->userLogin($trimEmail, $trimPass);
             if ($result == false) {
                 echo '<div class="p-2 bg-danger text-white">Invalid Email or Password</div>';
             } else if ($result->getEmail() == $email) {
