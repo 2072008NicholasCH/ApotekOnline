@@ -1,7 +1,9 @@
 <?php
 
 /**
- * @author 2072030 - Kevin laurence
+ * @author Nicholas CH 2072008
+ * @author Juan Sterling 2072009
+ * @author Kevin Laurence 2072030
  */
 class PDOUtil
 {
