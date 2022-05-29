@@ -24,13 +24,13 @@ class UserController
             $password = filter_input(INPUT_POST, 'txtPassword');
 
             $result = $this->userDao->userLogin($email, $password);
-            if ($result->getEmail() == $email) {
+            if ($result == false) {
+                echo '<div class="p-2 bg-danger text-white">Invalid Email or Password</div>';
+            } else if ($result->getEmail() == $email) {
                 $_SESSION['web_user'] = true;
                 $_SESSION['web_user_full_name'] = $result->getFirstName() . " " . $result->getLastName();
                 $_SESSION['role'] = $result->getRole();
                 header('location:index.php');
-            } else {
-                echo '<div class="bg-danger">Invalid ID or Password</div>';
             }
         }
         include_once 'view/login-view.php';
