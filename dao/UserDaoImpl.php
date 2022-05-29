@@ -9,7 +9,7 @@ class UserDaoImpl
     public function userLogin($userEmail, $userPassword)
     {
         $link = PDOUtil::createConnection();
-        $query = 'SELECT name, email, role FROM user_lab WHERE email = ? AND password = MD5(?)';
+        $query = 'SELECT name, email, role FROM user WHERE email = ? AND password = MD5(?)';
         $stmt = $link->prepare($query);
         $stmt->bindParam(1, $userEmail);
         $stmt->bindParam(2, $userPassword);
