@@ -40,7 +40,7 @@ class UserController
     public function logout() {
         session_unset();
         session_destroy();
-        header('location:index.php?ahref=login');
+        header('location:index.php');
     }
 
     public function signUp()
