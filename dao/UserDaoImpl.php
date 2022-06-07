@@ -17,4 +17,27 @@ class UserDaoImpl
         $stmt->execute();
         return $stmt->fetchObject('User');
     }
+
+    public function userSignUp(User $user)
+    {
+        $link = PDOUtil::createConnection();
+        $query = 'INSERT INTO user(email, password, first_name, last_name, phone, role)
+        values(?,MD5(?),?,?,?,?)';
+        $stmt = $link->prepare($query);
+        $stmt->bindValue(1, $user->getEmail());
+        $stmt->bindValue(2, $user->getPassword());
+        $stmt->bindValue(3, $user->getFirstName());
+        $stmt->bindValue(4, $user->getLastName());
+        $stmt->bindValue(5, $user->getPassword());
+        $stmt->bindValue(6, $user->getRole());
+        $link->beginTransaction();
+        if ($stmt->execute()) {
+            $link->commit();
+            $result = 1;
+        } else {
+            $link->rollBack();
+        }
+        $link = null;
+        return $result;
+    }
 }

@@ -40,6 +40,39 @@ class UserController
     public function logout() {
         session_unset();
         session_destroy();
-        header('location:index.php');
+        header('location:index.php?ahref=login');
+    }
+
+    public function signUp()
+    {
+
+        $loginSubmitted = filter_input(INPUT_POST, 'btnSignup');
+        if (isset($loginSubmitted)) {
+            $firstName = filter_input(INPUT_POST, 'txtFName');
+            $lastName = filter_input(INPUT_POST, 'txtLName');
+            $email = filter_input(INPUT_POST, 'txtEmail');
+            $password = filter_input(INPUT_POST, 'txtPassword');
+            $phone = filter_input(INPUT_POST, 'txtPhone');
+            $trimFName = trim($firstName);
+            $trimLName = trim($lastName);
+            $trimEmail = trim($email);
+            $trimPass = trim($password);
+            $trimPhone = trim($phone);
+            $user = new User();
+            $user->setEmail($trimEmail);
+            $user->setPassword($trimPass);
+            $user->setFirstName($trimFName);
+            $user->setLastName($trimLName);
+            $user->setPassword($trimPass);
+            $user->setPhone($trimPhone);
+            $user->setRole('user');
+            $result = $this->userDao->userSignUp($user);
+            if ($result) {
+                header('location:index.php?ahref=login');
+            } else {
+                echo '<div class="bg bg-danger">Error on sign up</div>';
+            }
+        }
+        include_once 'view/signup-view.php';
     }
 }
