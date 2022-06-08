@@ -20,6 +20,12 @@
 </head>
 
 <body>
+    <?php
+    if (isset($_SESSION['flashMessage'])) {
+        echo '<div class="bg bg-success" style="text-align:center; color:white;">' . $_SESSION["flashMessage"] . '</div>';
+        unset($_SESSION['flashMessage']);
+    }
+    ?>
     <div class="registration-form">
         <form method="post">
             <div class="form-group">

@@ -86,6 +86,7 @@ if (!isset($_SESSION['web_user'])) {
 
 <body>
   <?php
+  $_SESSION['message'] = "";
   // if ($_SESSION['web_user']) {
   //   ob_start();
 

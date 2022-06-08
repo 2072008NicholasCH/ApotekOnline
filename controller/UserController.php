@@ -68,6 +68,12 @@ class UserController
             $user->setRole('user');
             $result = $this->userDao->userSignUp($user);
             if ($result) {
+                if (!session_id()) {
+                    session_start();
+                }
+                if (true) {
+                    $_SESSION['flashMessage'] = 'Sign up successfully. Please login again';
+                }
                 header('location:index.php?ahref=login');
             } else {
                 echo '<div class="bg bg-danger">Error on sign up</div>';
