@@ -50,22 +50,6 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>anjing</td>
-            <td>anjing</td>
-            <td>anjing</td>
-            <td>anjing</td>
-            <td>anjing</td>
-            <td>anjing</td>
-        </tr>
-        <tr>
-            <td>kucing</td>
-            <td>kucing</td>
-            <td>kucing</td>
-            <td>kucing</td>
-            <td>kucing</td>
-            <td>kucing</td>
-        </tr>
         <?php
         /**
          * @var $item Supplier
