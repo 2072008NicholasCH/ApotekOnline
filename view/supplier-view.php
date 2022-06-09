@@ -9,34 +9,51 @@
 <div class="mt-4 d-flex align-items-center justify-content-center">
     <h1><a href="index.php?ahref=supplier" style="color:white;">Supplier Obat</a></h1>
 </div>
-<div class="container">
-    <form method="post">
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="nameSupp" class="form-label">Nama Supplier</label>
-                    <input type="text" class="form-control" name="txtName" placeholder="Nama Supplier" autofocus required id="nameSupp">
-                </div>
-                <div class="form-group">
-                    <label for="address" class="form-label">Alamat</label>
-                    <input type="text" class="form-control" name="txtAddress" placeholder="Alamat" required id="address">
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="city" class="form-label">Kota</label>
-                    <input type="text" class="form-control" name="txtCity" placeholder="Kota" required id="city">
-                </div>
-                <div class="form-group">
-                    <label for="phone" class="form-label">No. Telp</label>
-                    <input type="text" class="form-control" name="txtPhone" placeholder="No. Telp" required id="phone">
-                </div>
-            </div>
-        </div>
-        <input type="submit" value="Add Supplier" class="btn btn-primary my-2" name="btnSubmit">
-    </form>
-</div>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Add new supplier
+</button>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Supplier</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    <div class="form-group">
+                        <blockquote class="blockquote">
+                            <p>Nama Supplier</p>
+                        </blockquote>
+                        <input type="text" class="form-control" name="txtName" placeholder="Nama Supplier" autofocus required id="nameSupp">
+                    </div>
+                    <div class="form-group">
+                        <blockquote class="blockquote">
+                            <p>Alamat</p>
+                        </blockquote>
+                        <input type="text" class="form-control" name="txtAddress" placeholder="Alamat" required id="address">
+                    </div>
+                    <div class="form-group">
+                        <label for="city" class="form-label">Kota</label>
+                        <input type="text" class="form-control" name="txtCity" placeholder="Kota" required id="city">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" class="form-label">No. Telp</label>
+                        <input type="text" class="form-control" name="txtPhone" placeholder="No. Telp" required id="phone">
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" value="Add Supplier" class="btn btn-primary my-2" name="btnSubmit">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <table id="tableId" class="display">
     <thead>
