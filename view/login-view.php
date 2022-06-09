@@ -40,7 +40,9 @@
             <div class="form-group">
                 <button type="submit" name="btnLogin" class="btn btn-block create-account">Sign In</button>
             </div>
+            <p>Don't have an account? <a href="?ahref=signup">Sign up here</a></p>
         </form>
+        
     </div>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>

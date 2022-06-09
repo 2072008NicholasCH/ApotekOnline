@@ -8,15 +8,19 @@
 
 session_start();
 include_once 'util/PDOUtil.php';
+
 include_once 'entity/User.php';
 include_once 'entity/Obat.php';
 include_once 'entity/Obat_has_Penjualan.php';
 include_once 'entity/Penjualan.php';
 include_once 'entity/Supplier.php';
 include_once 'entity/Transaksi.php';
-include_once 'entity/Obat.php';
+
 include_once 'dao/UserDaoImpl.php';
+include_once 'dao/SupplierDaoImpl.php';
+
 include_once 'controller/UserController.php';
+include_once 'controller/SupplierController.php';
 
 if (!isset($_SESSION['web_user'])) {
   $_SESSION['web_user'] = false;
@@ -54,15 +58,8 @@ if (!isset($_SESSION['web_user'])) {
   <script src="https://kit.fontawesome.com/3829a87171.js" crossorigin="anonymous"></script>
   <script type="text/javascript" src="js/functional_js.js"></script>
 
-  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="css/style.css">
-
   <!-- CSS -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500&display=swap">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="assetsmenu/css/jquery.mCustomScrollbar.min.css">
   <link rel="stylesheet" href="assetsmenu/css/animate.css">
   <link rel="stylesheet" href="assetsmenu/css/style.css">
@@ -81,10 +78,80 @@ if (!isset($_SESSION['web_user'])) {
   <script src="assetsmenu/js/jquery.waypoints.min.js"></script>
   <script src="assetsmenu/js/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="assetsmenu/js/scripts.js"></script>
-
 </head>
 
 <body>
+  <?php
+  ob_start();
+  ?>
+  <!-- Wrapper -->
+  <div class="wrapper">
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+
+      <!-- close sidebar menu -->
+      <div class="dismiss">
+        <i class="fas fa-arrow-left"></i>
+      </div>
+
+      <div class="to-top">
+        <a href="index.php" style="color:white;">Apotek Online</a>
+      </div>
+
+      <ul class="list-unstyled menu-elements">
+        <li>
+          <a class="scroll-link" href="?ahref=home"><i class="fas fa-home"></i> Home</a>
+        </li>
+        <?php
+        if (isset($_SESSION['role']) && $_SESSION['role'] == "admin") {
+          echo '<li>
+            <a class="scroll-link" href="?ahref=supplier"><i class="fas fa-user"></i> Supplier</a>
+          </li>';
+        }
+        ?>
+        <li>
+          <a class="scroll-link" href="?ahref=obat"><i class="fa-solid fa-capsules"></i> Obat</a>
+        </li>
+        <li>
+          <a class="scroll-link" href="#section-6"><i class="fas fa-envelope"></i> Contact us</a>
+        </li>
+      </ul>
+
+      <?php
+      if (isset($_SESSION['web_user']) && $_SESSION['web_user']) {
+        echo '<div class="sign-out">
+            <a class="btn btn-danger w-75" role="button" onclick="logOut()">Sign out</a>
+            <script>
+                function logOut() {
+                    const confirm = window.confirm("Are you sure want to sign out?");
+                    if (confirm) {
+                        window.location = "index.php?ahref=logout";
+                    }
+                }
+            </script>
+        </div>';
+      }
+      ?>
+
+    </nav>
+    <!-- End sidebar -->
+    <!-- <div class="background">
+      <h1>Halaman Home</h1>
+    </div> -->
+    <!-- Content -->
+    <div class="content">
+      <!-- open sidebar menu -->
+      <a class="btn btn-primary btn-customized open-menu" href="#" role="button">
+        <i class="fas fa-bars"></i> <span>Menu</span>
+      </a>
+
+    </div>
+    <!-- End content -->
+
+  </div>
+  <!-- End wrapper -->
+
   <?php
   $_SESSION['message'] = "";
   // if ($_SESSION['web_user']) {
@@ -103,21 +170,10 @@ if (!isset($_SESSION['web_user'])) {
       $userController = new UserController();
       $userController->signUp();
       break;
-      // case 'genre':
-      //     include_once 'view/view-Genre.php';
-      //     break;
-      // case 'movie':
-      //     include_once 'view/view-Movie.php';
-      //     break;
-      // case 'upGenre':
-      //     include_once 'view/view-update-genre.php';
-      //     break;
-      // case 'upMovie':
-      //     include_once 'view/view-update-movie.php';
-      //     break;
-      // case 'addMovie':
-      //     include_once 'view/view-add-movie.php';
-      //     break;
+    case 'supplier':
+      $suppController = new SupplierController();
+      $suppController->index();
+      break;
     case 'logout':
       $userController = new UserController();
       $userController->logout();
@@ -151,10 +207,5 @@ if (!isset($_SESSION['web_user'])) {
     $('#tableId').DataTable();
   });
 </script>
-
-<script src="js/jquery.min.js"></script>
-<script src="js/popper.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/main.js"></script>
 
 </html>

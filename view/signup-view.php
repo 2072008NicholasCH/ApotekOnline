@@ -42,11 +42,12 @@
                 <span id='message'></span>
             </div>
             <div class="form-group">
-            <input type="tel" class="form-control item" id="phone" name="txtPhone" placeholder="Phone Number" required>
+                <input type="tel" class="form-control item" id="phone" name="txtPhone" placeholder="Phone Number" required>
             </div>
             <div class="form-group">
                 <button type="submit" id="btnSignup" name="btnSignup" class="btn btn-block create-account">Sign Up</button>
             </div>
+            <p>Already have an account? <a href="?ahref=login">Login here</a></p>
         </form>
     </div>
     <script>

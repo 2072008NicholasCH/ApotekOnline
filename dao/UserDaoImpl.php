@@ -28,7 +28,7 @@ class UserDaoImpl
         $stmt->bindValue(2, $user->getPassword());
         $stmt->bindValue(3, $user->getFirstName());
         $stmt->bindValue(4, $user->getLastName());
-        $stmt->bindValue(5, $user->getPassword());
+        $stmt->bindValue(5, $user->getPhone());
         $stmt->bindValue(6, $user->getRole());
         $link->beginTransaction();
         if ($stmt->execute()) {

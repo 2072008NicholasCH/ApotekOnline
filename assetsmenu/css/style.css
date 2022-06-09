@@ -1,4 +1,4 @@
-body { background-color:#2b2b2b; font-family: 'Roboto', sans-serif; font-size: 16px; font-weight: 300; color: #888; line-height: 30px; text-align: center; }
+body { background-color:#2b2b2b; font-family: 'Roboto', sans-serif; font-size: 16px; font-weight: 300; color: #fff; line-height: 30px; text-align: center; }
 
 strong { font-weight: 500; }
 
@@ -207,7 +207,7 @@ a.btn-customized:active:focus,
 a.btn-customized.active:focus,
 a.btn-customized.btn.btn-primary:not(:disabled):not(.disabled):active,
 a.btn-customized.btn.btn-primary:not(:disabled):not(.disabled):active:focus {
-	outline: 0; background: #cd533d; background: rgba(243, 91, 63, 0.7); border: 0; color: #fff; box-shadow: none;
+	outline: 0; background: #5374b5; border: 0; color: #fff; box-shadow: none;
 }
 
 a.btn-customized-2 {

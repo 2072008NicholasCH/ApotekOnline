@@ -63,7 +63,6 @@ class UserController
             $user->setPassword($trimPass);
             $user->setFirstName($trimFName);
             $user->setLastName($trimLName);
-            $user->setPassword($trimPass);
             $user->setPhone($trimPhone);
             $user->setRole('user');
             $result = $this->userDao->userSignUp($user);
