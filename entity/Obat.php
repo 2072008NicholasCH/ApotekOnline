@@ -1,29 +1,64 @@
 <?php
 
-class Obat
+class Obat implements JsonSerializable
 {
     private $idObat;
     private $nama;
     private $jenis;
     private $harga;
     private $stock;
-    private $supplier_idSupplier;
+    private $supplier;
+    private $photo;
+
+    // /**
+    //  * @return mixed
+    //  */
+    // public function getSupplierIdSupplier()
+    // {
+    //     return $this->supplier_idSupplier;
+    // }
+
+    // /**
+    //  * @param mixed $supplier_idSupplier
+    //  */
+    // public function setSupplierIdSupplier($supplier_idSupplier)
+    // {
+    //     $this->supplier_idSupplier = $supplier_idSupplier;
+    // }
 
     /**
-     * @return mixed
+     * @return Supplier
      */
-    public function getSupplierIdSupplier()
+    public function getSupplier()
     {
-        return $this->supplier_idSupplier;
+        if(!isset($this->supplier)) {
+            $this->supplier = new Supplier();
+        }
+        return $this->supplier;
     }
 
     /**
-     * @param mixed $supplier_idSupplier
+     * @param Supplier $supplier
      */
-    public function setSupplierIdSupplier($supplier_idSupplier)
+    public function setSupplier($supplier)
     {
-        $this->supplier_idSupplier = $supplier_idSupplier;
+        $this->supplier = $supplier;
     }
+
+    public function __set($name, $value)
+    {
+        if(!isset($this->supplier)) {
+            $this->supplier = new Supplier();
+        }
+        switch ($name) {
+            case 'supplier_id':
+                $this->supplier->setIdSupplier($value);
+                break;
+            case 'supplier_name':
+                $this->supplier->setNama($value);
+        }
+    }
+
 
     /**
      * @return mixed
@@ -103,5 +138,26 @@ class Obat
     public function setStock($stock)
     {
         $this->stock = $stock;
+    }
+
+     /**
+     * @return mixed
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param mixed $photo
+     */
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
+    }
+
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
     }
 }

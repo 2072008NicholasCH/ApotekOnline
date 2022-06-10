@@ -27,14 +27,14 @@ class SupplierController
                 $message = '<i class="fa-solid fa-circle-check"></i> Data successfully deleted';
                 echo "<script> bootoast.toast({
             message: '" . $message . "',
-             'success',
+            type: 'success',
             position: 'top'
         }); </script>";
             } else {
                 $message = '<i class="fa-solid fa-circle-xmark"></i> Error on delete data';
                 echo "<script> bootoast.toast({
                     message: '" . $message . "',
-                     'danger',
+                    type: 'danger',
                     position: 'top'
                 }); </script>";
             }
@@ -60,14 +60,14 @@ class SupplierController
                 $message = '<i class="fa-solid fa-circle-check"></i> Data successfully added';
                 echo "<script> bootoast.toast({
                     message: '" . $message . "',
-                     'success',
+                    type: 'success',
                     position: 'top'
                 }); </script>";
             } else {
                 $message = '<i class="fa-solid fa-circle-xmark"></i> Error on add data';
                 echo "<script> bootoast.toast({
                     message: '" . $message . "',
-                     'danger',
+                    type: 'danger',
                     position: 'top'
                 }); </script>";
             }
@@ -104,7 +104,7 @@ class SupplierController
                     $message = '<i class="fa-solid fa-circle-check"></i> Data successfully updated';
                     $_SESSION['updateMessage'] = "<script> bootoast.toast({
                         message: '" . $message . "',
-                         'success',
+                        type: 'success',
                         position: 'top'
                     }); </script>";
                 }
@@ -113,7 +113,7 @@ class SupplierController
                 $message = '<i class="fa-solid fa-circle-xmark"></i> Error on update data';
                 echo "<script> bootoast.toast({
                     message: '" . $message . "',
-                     'danger',
+                    type: 'danger',
                     position: 'top'
                 }); </script>";
             }
