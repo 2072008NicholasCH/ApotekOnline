@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `apotekonline`.`obat` (
   `photo` VARCHAR(50) NULL,
   `supplier_idSupplier` INT NOT NULL,
   PRIMARY KEY (`idObat`),
-  INDEX `fk_obat_supplier_idx` (`supplier_idSupplier` ASC) VISIBLE,
+  INDEX `fk_obat_supplier_idx` (`supplier_idSupplier` ASC),
   CONSTRAINT `fk_obat_supplier`
     FOREIGN KEY (`supplier_idSupplier`)
     REFERENCES `apotekonline`.`supplier` (`idSupplier`)
@@ -88,8 +88,8 @@ CREATE TABLE IF NOT EXISTS `apotekonline`.`penjualan` (
   `user_email` VARCHAR(255) NOT NULL,
   `transaksi_idTransaksi` VARCHAR(10) NOT NULL,
   PRIMARY KEY (`idPenjualan`),
-  INDEX `fk_penjualan_user1_idx` (`user_email` ASC) VISIBLE,
-  INDEX `fk_penjualan_transaksi1_idx` (`transaksi_idTransaksi` ASC) VISIBLE,
+  INDEX `fk_penjualan_user1_idx` (`user_email` ASC),
+  INDEX `fk_penjualan_transaksi1_idx` (`transaksi_idTransaksi` ASC),
   CONSTRAINT `fk_penjualan_user1`
     FOREIGN KEY (`user_email`)
     REFERENCES `apotekonline`.`user` (`email`)
@@ -112,8 +112,8 @@ CREATE TABLE IF NOT EXISTS `apotekonline`.`obat_has_penjualan` (
   `jumlah` INT NOT NULL,
   `harga` INT NOT NULL,
   PRIMARY KEY (`obat_idObat`, `penjualan_idPenjualan`),
-  INDEX `fk_obat_has_penjualan_penjualan1_idx` (`penjualan_idPenjualan` ASC) VISIBLE,
-  INDEX `fk_obat_has_penjualan_obat1_idx` (`obat_idObat` ASC) VISIBLE,
+  INDEX `fk_obat_has_penjualan_penjualan1_idx` (`penjualan_idPenjualan` ASC),
+  INDEX `fk_obat_has_penjualan_obat1_idx` (`obat_idObat` ASC),
   CONSTRAINT `fk_obat_has_penjualan_obat1`
     FOREIGN KEY (`obat_idObat`)
     REFERENCES `apotekonline`.`obat` (`idObat`)
