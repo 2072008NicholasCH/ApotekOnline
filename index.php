@@ -41,6 +41,14 @@ if (!isset($_SESSION['web_user'])) {
 
   <title>Apotek Online</title>
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <!-- Toast Notification Assets -->
+  <link href="src/bootoast.css" rel="stylesheet" type="text/css">
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="dist/bootoast.min.js"></script>
+
   <!-- Icons font CSS -->
   <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
   <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
@@ -173,6 +181,7 @@ if (!isset($_SESSION['web_user'])) {
     case 'supplier':
       $suppController = new SupplierController();
       $suppController->index();
+      $suppController->updateSupp();
       break;
     case 'logout':
       $userController = new UserController();
