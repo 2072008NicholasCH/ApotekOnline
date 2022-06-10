@@ -24,9 +24,19 @@ class SupplierController
                 echo '<script>
         window.history.pushState("","Document","index.php?ahref=supplier");
         </script>';
-                echo '<div class="bg-success">Data successfully deleted <i class="fa-solid fa-circle-check"></i></div>';
+                $message = '<i class="fa-solid fa-circle-check"></i> Data successfully deleted';
+                echo "<script> bootoast.toast({
+            message: '" . $message . "',
+            type: 'success',
+            position: 'top'
+        }); </script>";
             } else {
-                echo '<div class="bg-danger">Error on delete data</div>';
+                $message = '<i class="fa-solid fa-circle-xmark"></i> Error on delete data';
+                echo "<script> bootoast.toast({
+                    message: '" . $message . "',
+                    type: 'danger',
+                    position: 'top'
+                }); </script>";
             }
         }
 
@@ -47,9 +57,19 @@ class SupplierController
             $supplier->setPhone($trimPhone);
             $result = $this->supplierDao->insertNewSupp($supplier);
             if ($result) {
-                echo '<div class="bg-success">Data added successfully <i class="fa-solid fa-circle-check"></i></div>';
+                $message = '<i class="fa-solid fa-circle-check"></i> Data successfully added';
+                echo "<script> bootoast.toast({
+                    message: '" . $message . "',
+                    type: 'success',
+                    position: 'top'
+                }); </script>";
             } else {
-                echo '<div class="bg-danger">Error on add data</div>';
+                $message = '<i class="fa-solid fa-circle-xmark"></i> Error on add data';
+                echo "<script> bootoast.toast({
+                    message: '" . $message . "',
+                    type: 'danger',
+                    position: 'top'
+                }); </script>";
             }
         }
         $suppliers = $this->supplierDao->fetchAllSupp();
@@ -58,33 +78,61 @@ class SupplierController
 
     public function updateSupp()
     {
-        $suppId = filter_input(type: INPUT_GET, var_name: 'sid');
-        if (isset($suppId) && $suppId != '') {
-            $supp = $this->supplierDao->fetchSupp($suppId);
-        }
-
-        $submitPressed = filter_input(type: INPUT_POST, var_name: 'btnSubmit');
+        $submitPressed = filter_input(type: INPUT_POST, var_name: 'btnUpdateSubmit');
         if (isset($submitPressed)) {
-            $name = filter_input(type: INPUT_POST, var_name: 'txtName');
-            $address = filter_input(type: INPUT_POST, var_name: 'txtAddress');
-            $city = filter_input(type: INPUT_POST, var_name: 'txtCity');
-            $phone = filter_input(type: INPUT_POST, var_name: 'txtPhone');
+            $suppId = filter_input(type: INPUT_POST, var_name: 'updateId');
+            $name = filter_input(type: INPUT_POST, var_name: 'updateName');
+            $address = filter_input(type: INPUT_POST, var_name: 'updateAddress');
+            $city = filter_input(type: INPUT_POST, var_name: 'updateCity');
+            $phone = filter_input(type: INPUT_POST, var_name: 'updatePhone');
             $trimName = trim($name);
             $trimAddress = trim($address);
             $trimCity = trim($city);
             $trimPhone = trim($phone);
             $supplier = new Supplier();
+            $supplier->setIdSupplier($suppId);
             $supplier->setNama($trimName);
             $supplier->setAlamat($trimAddress);
             $supplier->setKota($trimCity);
             $supplier->setPhone($trimPhone);
             $result = $this->supplierDao->updateSupp($supplier);
             if ($result) {
-                header(header: 'location:index.php?ahref=supplier');
+                if (!session_id()) {
+                    session_start();
+                }
+                if (true) {
+                    $message = '<i class="fa-solid fa-circle-check"></i> Data successfully updated';
+                    $_SESSION['updateMessage'] = "<script> bootoast.toast({
+                        message: '" . $message . "',
+                        type: 'success',
+                        position: 'top'
+                    }); </script>";
+                }
+                header('location:index.php?ahref=supplier');
             } else {
-                echo '<div class="bg-danger">Error on add data</div>';
+                $message = '<i class="fa-solid fa-circle-xmark"></i> Error on update data';
+                echo "<script> bootoast.toast({
+                    message: '" . $message . "',
+                    type: 'danger',
+                    position: 'top'
+                }); </script>";
             }
         }
-        include_once 'view/supplier-update-view.php';
     }
+
+    public function fetchSupp($suppId)
+    {
+        if (isset($suppId) && $suppId != '') {
+            $supp = $this->supplierDao->fetchSupp($suppId);
+            echo json_encode($supp);
+        }
+    }
+}
+
+if (isset($_POST['method']) && $_POST['method'] == "fetchSupp") {
+    include_once '../entity/Supplier.php';
+    include_once '../dao/SupplierDaoImpl.php';
+    include_once '../util/PDOUtil.php';
+    $test = new SupplierController();
+    $test->fetchSupp($_POST['id']);
 }

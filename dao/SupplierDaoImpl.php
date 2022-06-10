@@ -26,7 +26,7 @@ class SupplierDaoImpl
         $stmt->setFetchMode(PDO::FETCH_OBJ);
         $stmt->execute();
         $conn = null;
-        return $stmt->fetchObject(class:'Supplier');
+        return $stmt->fetchObject('Supplier');
     }
 
     public function insertNewSupp(Supplier $supplier)
@@ -62,6 +62,7 @@ class SupplierDaoImpl
         $stmt->bindValue(2, $supplier->getAlamat());
         $stmt->bindValue(3, $supplier->getKota());
         $stmt->bindValue(4, $supplier->getPhone());
+        $stmt->bindValue(5, $supplier->getIdSupplier());
         $conn->beginTransaction();
         if ($stmt->execute()) {
             $conn->commit();
@@ -78,7 +79,7 @@ class SupplierDaoImpl
         $result = 0;
         $conn = PDOUtil::createConnection();
 
-        $query = "DELETE FROM supplier WHERE id = ?";
+        $query = "DELETE FROM supplier WHERE idSupplier = ?";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(1, $id);
         $conn->beginTransaction();

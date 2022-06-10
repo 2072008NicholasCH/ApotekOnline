@@ -1,6 +1,6 @@
 <?php
 
-class Supplier
+class Supplier implements JsonSerializable
 {
     private $idSupplier;
     private $nama;
@@ -86,5 +86,10 @@ class Supplier
     public function setPhone($phone)
     {
         $this->phone = $phone;
+    }
+
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
     }
 }
