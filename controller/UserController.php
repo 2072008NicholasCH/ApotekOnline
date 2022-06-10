@@ -18,9 +18,9 @@ class UserController
     public function index()
     {
 
-        $loginSubmitted = filter_input(type: INPUT_POST, var_name: 'btnLogin');
+        $loginSubmitted = filter_input( INPUT_POST,  'btnLogin');
         if (isset($loginSubmitted)) {
-            $email = filter_input(type: INPUT_POST, var_name: 'txtEmail');
+            $email = filter_input( INPUT_POST,  'txtEmail');
             $password = filter_input(INPUT_POST, 'txtPassword');
             $trimEmail = trim($email);
             $trimPass = trim($password);

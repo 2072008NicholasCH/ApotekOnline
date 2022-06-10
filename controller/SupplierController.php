@@ -16,9 +16,9 @@ class SupplierController
     }
     public function index()
     {
-        $deleteCommand = filter_input(type: INPUT_GET, var_name: 'delcom');
+        $deleteCommand = filter_input( INPUT_GET,  'delcom');
         if (isset($deleteCommand) && $deleteCommand == 1) {
-            $suppId = filter_input(type: INPUT_GET, var_name: 'sid');
+            $suppId = filter_input( INPUT_GET,  'sid');
             $result = $this->supplierDao->deleteSupp($suppId);
             if ($result) {
                 echo '<script>
@@ -30,12 +30,12 @@ class SupplierController
             }
         }
 
-        $submitPressed = filter_input(type: INPUT_POST, var_name: 'btnSubmit');
+        $submitPressed = filter_input( INPUT_POST,  'btnSubmit');
         if (isset($submitPressed)) {
-            $name = filter_input(type: INPUT_POST, var_name: 'txtName');
-            $address = filter_input(type: INPUT_POST, var_name: 'txtAddress');
-            $city = filter_input(type: INPUT_POST, var_name: 'txtCity');
-            $phone = filter_input(type: INPUT_POST, var_name: 'txtPhone');
+            $name = filter_input( INPUT_POST,  'txtName');
+            $address = filter_input( INPUT_POST,  'txtAddress');
+            $city = filter_input( INPUT_POST,  'txtCity');
+            $phone = filter_input( INPUT_POST,  'txtPhone');
             $trimName = trim($name);
             $trimAddress = trim($address);
             $trimCity = trim($city);
@@ -58,17 +58,17 @@ class SupplierController
 
     public function updateSupp()
     {
-        $suppId = filter_input(type: INPUT_GET, var_name: 'sid');
+        $suppId = filter_input( INPUT_GET,  'sid');
         if (isset($suppId) && $suppId != '') {
             $supp = $this->supplierDao->fetchSupp($suppId);
         }
 
-        $submitPressed = filter_input(type: INPUT_POST, var_name: 'btnSubmit');
+        $submitPressed = filter_input( INPUT_POST,  'btnSubmit');
         if (isset($submitPressed)) {
-            $name = filter_input(type: INPUT_POST, var_name: 'txtName');
-            $address = filter_input(type: INPUT_POST, var_name: 'txtAddress');
-            $city = filter_input(type: INPUT_POST, var_name: 'txtCity');
-            $phone = filter_input(type: INPUT_POST, var_name: 'txtPhone');
+            $name = filter_input( INPUT_POST,  'txtName');
+            $address = filter_input( INPUT_POST,  'txtAddress');
+            $city = filter_input( INPUT_POST,  'txtCity');
+            $phone = filter_input( INPUT_POST,  'txtPhone');
             $trimName = trim($name);
             $trimAddress = trim($address);
             $trimCity = trim($city);
@@ -80,7 +80,7 @@ class SupplierController
             $supplier->setPhone($trimPhone);
             $result = $this->supplierDao->updateSupp($supplier);
             if ($result) {
-                header(header: 'location:index.php?ahref=supplier');
+                header( 'location:index.php?ahref=supplier');
             } else {
                 echo '<div class="bg-danger">Error on add data</div>';
             }

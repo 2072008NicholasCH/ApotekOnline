@@ -26,7 +26,7 @@ class SupplierDaoImpl
         $stmt->setFetchMode(PDO::FETCH_OBJ);
         $stmt->execute();
         $conn = null;
-        return $stmt->fetchObject(class:'Supplier');
+        return $stmt->fetchObject('Supplier');
     }
 
     public function insertNewSupp(Supplier $supplier)
