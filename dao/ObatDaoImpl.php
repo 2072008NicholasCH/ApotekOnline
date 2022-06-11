@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Nicholas CH 2072008
  * @author Juan Sterling 2072009
@@ -20,7 +21,7 @@ class ObatDaoImpl
     public function fetchObat($idObat)
     {
         $conn = PDOUtil::createConnection();
-        $query = 'SELECT * FROM obat WHERE idObat = ?';
+        $query = 'SELECT obat.* , supplier.idSupplier, supplier.nama as "nama_supplier" FROM obat JOIN supplier ON obat.supplier_idSupplier = supplier.idSupplier WHERE idObat = ?';
         $stmt = $conn->prepare($query);
         $stmt->bindParam(1, $idObat);
         $stmt->setFetchMode(PDO::FETCH_OBJ);
@@ -59,14 +60,16 @@ class ObatDaoImpl
         $result = 0;
         $conn = PDOUtil::createConnection();
 
-        $query = "UPDATE obat SET idObat = ?, nama = ? , jenis = ?, harga = ?, stock = ? , supplier_idSupplier = ? WHERE idObat = ?";
+        $query = "UPDATE obat SET idObat = ?, nama = ? , jenis = ?, harga = ?, stock = ? , photo = ?, supplier_idSupplier = ? WHERE idObat = ?";
         $stmt = $conn->prepare($query);
         $stmt->bindValue(1, $obat->getIdObat());
         $stmt->bindValue(2, $obat->getNama());
         $stmt->bindValue(3, $obat->getJenis());
         $stmt->bindValue(4, $obat->getHarga());
         $stmt->bindValue(5, $obat->getStock());
-        $stmt->bindValue(6, $obat->getSupplier()->getIdSupplier());
+        $stmt->bindValue(6, $obat->getPhoto());
+        $stmt->bindValue(7, $obat->getSupplier()->getIdSupplier());
+        $stmt->bindValue(8, $obat->getIdObat());
         $conn->beginTransaction();
         if ($stmt->execute()) {
             $conn->commit();
@@ -95,5 +98,17 @@ class ObatDaoImpl
         }
         $conn = null;
         return $result;
+    }
+
+    public function searchObat($nama)
+    {
+        $conn = PDOUtil::createConnection();
+        $query = "SELECT * FROM obat WHERE nama LIKE ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(1, '%' . $nama . '%', PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Obat');
+        $stmt->execute();
+        $conn = null;
+        return $stmt->fetchAll();
     }
 }

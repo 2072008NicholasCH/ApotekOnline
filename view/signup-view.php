@@ -33,6 +33,7 @@
             </div>
             <div class="form-group">
                 <input type="text" class="form-control item" id="email" name="txtEmail" placeholder="Email" required>
+                <span id='emailMessage'></span>
             </div>
             <div class="form-group">
                 <input type="password" class="form-control item" id="password" name="txtPassword" placeholder="Password" required onchange='check_pass();'>
@@ -63,6 +64,26 @@
                 document.getElementById('message').style.color = 'red';
             }
         }
+        $('#email').on('keyup', function() {
+            $.ajax({
+                url: 'controller/UserController.php',
+                type: 'post',
+                data: {
+                    method: "checkEmail",
+                    email: $('#email').val()
+                },
+                success: function(responsedata) {
+                    if (responsedata == 1) {
+                        document.getElementById('btnSignup').disabled = true;
+                        document.getElementById('emailMessage').innerHTML = 'Email has already been used';
+                        document.getElementById('emailMessage').style.color = 'red';
+                    } else {
+                        document.getElementById('btnSignup').disabled = false;
+                        document.getElementById('emailMessage').innerHTML = '';
+                    }
+                }
+            })
+        })
     </script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>

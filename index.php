@@ -14,15 +14,17 @@ include_once 'entity/Obat.php';
 include_once 'entity/Obat_has_Penjualan.php';
 include_once 'entity/Penjualan.php';
 include_once 'entity/Supplier.php';
-include_once 'entity/Transaksi.php';
+include_once 'entity/Keranjang.php';
 
 include_once 'dao/UserDaoImpl.php';
 include_once 'dao/SupplierDaoImpl.php';
 include_once 'dao/ObatDaoImpl.php';
+include_once 'dao/KeranjangDaoImpl.php';
 
 include_once 'controller/UserController.php';
 include_once 'controller/SupplierController.php';
 include_once 'controller/ObatController.php';
+include_once 'controller/KeranjangController.php';
 
 if (!isset($_SESSION['web_user'])) {
   $_SESSION['web_user'] = false;
@@ -187,7 +189,11 @@ if (!isset($_SESSION['web_user'])) {
       break;
     case 'obat':
       $obatController = new ObatController();
+      $keranjangController = new KeranjangController();
       $obatController->index();
+      $obatController->updateObat();
+      $keranjangController->index();
+      include_once 'view/obat-view.php';
       break;
     case 'logout':
       $userController = new UserController();

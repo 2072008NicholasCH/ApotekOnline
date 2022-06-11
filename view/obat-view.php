@@ -10,17 +10,35 @@
 <div class="mt-4 d-flex align-items-center justify-content-center">
     <h1><a href="index.php?ahref=obat" style="color:white;">Obat</a></h1>
 </div>
-<div class="mb-4 d-flex align-items-center justify-content-center">
+<?php
+if ($_SESSION['role'] == "admin") {
+    echo '<div class="mb-4 d-flex align-items-center justify-content-center">
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addObatModal">
         <i class="fa-solid fa-plus"></i> Add Obat
     </button>
+</div>';
+}
+?>
+<div class="mb-4 d-flex align-items-center justify-content-center">
+    <form method="post">
+        <input type="text" name="searchObat" placeholder="Cari obat" id="searchObat">
+        <input type="submit" value="Search Obat" class="btn btn-primary my-2" name="btnSearch">
+    </form>
 </div>
-
+<div class="mb-4 d-flex align-items-center justify-content-center">
+    <?php
+    if (isset($nama) && !empty($nama)) {
+        echo '<h3 style="color:white;">Search for "' . $nama . '"</h3>';
+    }
+    ?>
+</div>
 <?php
 if (isset($_SESSION['updateMessage'])) {
     echo $_SESSION['updateMessage'];
     unset($_SESSION['updateMessage']);
 }
+
+echo '<button onclick="viewKeranjang(\'' . $_SESSION['email'] . '\')"value="Search Obat" class="btn btn-primary btn-card my-2" name="btnSearch" data-toggle="modal" data-target="#keranjangModal"><i class="fa-solid fa-cart-shopping fa-xl"></i></button>';
 ?>
 <!-- Add Obat Modal -->
 <div class="modal fade" id="addObatModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -93,60 +111,86 @@ if (isset($_SESSION['updateMessage'])) {
     </div>
 </div>
 
-<!-- Update Supplier Modal -->
-<div class="modal fade" id="updateSupplierModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<!-- Edit Obat Modal -->
+<div class="modal fade" id="editObatModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="overflow:auto;">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Update Supplier</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Edit Obat</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post">
-                    <div class="form-group">
-                        <blockquote class="blockquote">
-                            <p>ID Supplier</p>
-                        </blockquote>
-                        <input type="text" class="form-control" name="updateId" placeholder="ID Supplier" readonly id="idUpdateSupp">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-auto">
+                            <img style="width:15rem;" id="updatePhoto">
+                        </div>
+                        <div class="col-auto">
+                            <input type="hidden" id="oldPhoto" name="oldPhoto">
+                            <div class="form-group">
+                                <blockquote class="blockquote">
+                                    <p>ID Obat</p>
+                                </blockquote>
+                                <input type="text" class="form-control" name="updateId" placeholder="ID Obat" autofocus required id="idUpdateObat">
+                            </div>
+                            <div class="form-group">
+                                <blockquote class="blockquote">
+                                    <p>Nama Obat</p>
+                                </blockquote>
+                                <input type="text" class="form-control" name="updateName" placeholder="Nama Obat" required id="nameUpdateObat">
+                            </div>
+                            <div class="form-group">
+                                <blockquote class="blockquote">
+                                    <p>Jenis</p>
+                                </blockquote>
+                                <input type="text" class="form-control" name="updateJenis" placeholder="Jenis" required id="updateJenis">
+                            </div>
+                            <div class="form-group">
+                                <blockquote class="blockquote">
+                                    <p>Stock</p>
+                                </blockquote>
+                                <input type="text" class="form-control" name="updateStock" placeholder="Stock" required id="updateStock">
+                            </div>
+                            <div class="form-group">
+                                <blockquote class="blockquote">
+                                    <p>Harga</p>
+                                </blockquote>
+                                <input type="text" class="form-control" name="updateHarga" placeholder="Harga" required id="updateHarga">
+                            </div>
+                            <div class="form-group">
+                                <blockquote class="blockquote">
+                                    <p>Supplier</p>
+                                </blockquote>
+                                <select required id="selectUpdate" class="form-control mx-2" name="optSupplier">
+                                    <?php
+                                    foreach ($suppName as $item) {
+                                        echo '<option value="' . $item->getIdSupplier() . '">' . $item->getNama() . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <blockquote class="blockquote">
+                                    <p>Photo</p>
+                                </blockquote>
+                                <input type="file" name="filePhoto" id="photoId" class="form-control" accept="image/png, image/jpeg">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <blockquote class="blockquote">
-                            <p>Nama Supplier</p>
-                        </blockquote>
-                        <input type="text" class="form-control" name="updateName" placeholder="Nama Supplier" autofocus required id="nameUpdateSupp">
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary my-2" name="btnUpdateSubmit" id="btnUpdate">Update Supplier</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
-                    <div class="form-group">
-                        <blockquote class="blockquote">
-                            <p>Alamat</p>
-                        </blockquote>
-                        <input type="text" class="form-control" name="updateAddress" placeholder="Alamat" required id="updateAddress">
-                    </div>
-                    <div class="form-group">
-                        <blockquote class="blockquote">
-                            <p>Kota</p>
-                        </blockquote>
-                        <input type="text" class="form-control" name="updateCity" placeholder="Kota" required id="updateCity">
-                    </div>
-                    <div class="form-group">
-                        <blockquote class="blockquote">
-                            <p>No. Telp</p>
-                        </blockquote>
-                        <input type="text" class="form-control" name="updatePhone" placeholder="No. Telp" required id="updatePhone">
-                    </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary my-2" name="btnUpdateSubmit" id="btnUpdate">Update Supplier</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            </div>
-            </form>
         </div>
     </div>
 </div>
 
 <!-- Delete Modal -->
-<div class="modal fade" id="deleteSupplierModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteObatModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -159,7 +203,7 @@ if (isset($_SESSION['updateMessage'])) {
                 <span style="color:black;">Are you sure want to delete this data?</span>
             </div>
             <div class="modal-footer">
-                <button type="button" id="deleteConfirm" class="btn btn-primary">Delete supplier</button>
+                <button type="button" id="deleteConfirm" class="btn btn-primary">Delete obat</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>
@@ -171,45 +215,74 @@ if (isset($_SESSION['updateMessage'])) {
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Beli Obat</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Beli obat</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-auto">
-                        <img style="width:15rem;" id="obatPhoto">
-                    </div>
-                    <div class="col-auto">
-                        <h4 style="font-weight:bold; color:black;">Nama</h4>
-                        <p style="color:black;" id="obatNama"></p>
-                        <h4 style="font-weight:bold; color:black;">Jenis</h4>
-                        <p style="color:black;" id="obatJenis"></p>
-                        <h4 style="font-weight:bold; color:black;">Kuantitas</h4>
-                        <div class="input-group number-spinner">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" id="down"><i class="fa-solid fa-minus"></i></button>
-                            </span>
-                            <input type="number" class="form-control text-center" value="1" id="quantity" style="width: 4em;">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" id="up"><i class="fa-solid fa-plus"></i></button>
-                            </span>
-                            <p style="color:black; margin-top:3px;">Stok:&nbsp;</p>
-                            <p style="color:black; margin-top:3px;" id="obatStock"></p>
+                <form method="post">
+                    <div class="row">
+                        <div class="col-auto">
+                            <img style="width:15rem;" id="obatPhoto">
                         </div>
-                        <h4 style="font-weight:bold; color:black;">Harga</h4>
-                        <span style="color:black; font-weight:bold; font-size:x-large; color:#3e64ff">Rp</span>
-                        <span style="color:black; font-weight:bold; font-size:x-large; color:#3e64ff" id="obatHarga"></span>
+                        <input type="hidden" id="obatIdDet" name="obatIdDet">
+                        <div class="col-auto">
+                            <h4 style="font-weight:bold; color:black;">Nama</h4>
+                            <p style="color:black;" id="obatNama"></p>
+                            <h4 style="font-weight:bold; color:black;">Jenis</h4>
+                            <p style="color:black;" id="obatJenis"></p>
+                            <h4 style="font-weight:bold; color:black;">Kuantitas</h4>
+                            <div class="input-group number-spinner">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" id="down"><i class="fa-solid fa-minus"></i></button>
+                                </span>
+                                <input type="number" name="obatQuantity" class="form-control text-center" value="1" id="quantity" style="width: 4em;">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" id="up"><i class="fa-solid fa-plus"></i></button>
+                                </span>
+                                <p style="color:black; margin-top:3px;">Stok:&nbsp;</p>
+                                <p style="color:black; margin-top:3px;" id="obatStock"></p>
+                            </div>
+                            <input type="hidden" id="obatPrice" name="obatPrice">
+                            <h4 style="font-weight:bold; color:black;">Harga</h4>
+                            <span style="color:black; font-weight:bold; font-size:x-large; color:#3e64ff">Rp</span>
+                            <span style="color:black; font-weight:bold; font-size:x-large; color:#3e64ff" id="obatHarga"></span>
+                        </div>
+                        <?php
+                        if ($_SESSION['role'] == "admin") {
+                            echo '<div class="col-auto">
+                        <h4 style="font-weight:bold; color:black;">Supplier</h4>
+                        <p style="color:black; margin-top:3px;" id="namaSupplier"></p>
+                        <button id="editObat" data-dismiss="modal" data-toggle="modal" data-target="#editObatModal" class="btn btn-warning"><i data-fa-symbol="edit" class="fas fa-edit fa-fw"></i></button>
+                        <button data-dismiss="modal" data-toggle="modal" data-target="#deleteObatModal" class="btn btn-danger"><i data-fa-symbol="delete" class="fas fa-trash fa-fw"></i></button>
+                    </div>';
+                        }
+                        ?>
                     </div>
-                    <div class="col-auto">
-
-                    </div>
-                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="deleteConfirm" class="btn btn-primary">Beli Obat</button>
+                <button type="submit" id="keranjangConfirm" name="btnKeranjang" class="btn btn-primary">Masuk keranjang</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Keranjang Modal -->
+<div class="modal fade" id="keranjangModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Keranjang Belanja</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="isiKeranjang" style="text-align:center;">
+            </div>
+            <div class="modal-footer" id="buttonFooter">
             </div>
         </div>
     </div>
@@ -218,10 +291,14 @@ if (isset($_SESSION['updateMessage'])) {
 <div class="container">
     <div class="row row-cols-1 d-flex align-items-center justify-content-center">
         <?php
-        foreach ($obats as $item) {
-            echo '<div class="col-xs-6 mb-4" style="width:15rem;">';
-            if ($item->getStock() == 0) {
-                echo '<div class="card-noHover h-100" style="color:black;">
+        if (count($obats) == 0) {
+            echo '<p style="text-align:center;font-size:x-large">Maaf, obat tidak ditemukan :(</p>';
+        } else {
+            foreach ($obats as $item) {
+                echo '<div class="col-xs-6 mb-4" style="width:15rem;">';
+                if ($item->getStock() == 0) {
+                    if ($_SESSION['role'] == "user") {
+                        echo '<div class="card-noHover h-100" style="color:black;">
                 <img src="image/' . $item->getPhoto() . '" class="card-img-top" alt="Image" style="width:15rem;">
                     <div class="card-body">
                         <a>' . $item->getNama() . '</a>
@@ -231,8 +308,22 @@ if (isset($_SESSION['updateMessage'])) {
                     </div>
                     </div>
                 </div>';
-            } else {
-                echo '<button type="button" onclick="viewObat(\'' . $item->getIdObat() . '\')" style="padding:0px; border:0px" data-toggle="modal" data-target="#obatDetailModal">
+                    } else {
+                        echo '<button type="button" onclick="viewObat(\'' . $item->getIdObat() . '\')" style="padding:0px; border:0px" data-toggle="modal" data-target="#obatDetailModal">
+                <div class="card h-100" style="color:black;">
+                <img src="image/' . $item->getPhoto() . '" class="card-img-top" alt="Image" style="width:15rem;">
+                    <div class="card-body" style="text-align:left;">
+                    <a>' . $item->getNama() . '</a>
+                    <blockquote class="blockquote">
+                    <p style="color:red; font-weight:bold;">Stock Habis</p>
+                    </blockquote>
+                    </div>
+                </div>
+                </button>
+            </div>';
+                    }
+                } else {
+                    echo '<button type="button" onclick="viewObat(\'' . $item->getIdObat() . '\')" style="padding:0px; border:0px" data-toggle="modal" data-target="#obatDetailModal">
                 <div class="card h-100" style="color:black;">
                 <img src="image/' . $item->getPhoto() . '" class="card-img-top" alt="Image" style="width:15rem;">
                     <div class="card-body" style="text-align:left;">
@@ -244,16 +335,16 @@ if (isset($_SESSION['updateMessage'])) {
                 </div>
                 </button>
             </div>';
+                }
             }
         }
         ?>
     </div>
 </div>
-
 <script>
     $('#up').click(function() {
-        var val = $('#quantity').val();
-        var max = $('#quantity').attr('max');
+        var val = parseInt($('#quantity').val());
+        var max = parseInt($('#quantity').attr('max'));
         val++;
         if (val > max) {
             val = max;
@@ -262,7 +353,7 @@ if (isset($_SESSION['updateMessage'])) {
     });
 
     $('#down').click(function() {
-        var val = $('#quantity').val();
+        var val = parseInt($('#quantity').val());
         val--;
         if (val < 1) {
             val = 1;
@@ -278,7 +369,6 @@ if (isset($_SESSION['updateMessage'])) {
         } else if (val < 1) {
             $('#quantity').val(1);
         }
-        
     });
 
     function viewObat(id) {
@@ -291,14 +381,102 @@ if (isset($_SESSION['updateMessage'])) {
             },
             success: function(responsedata) {
                 var response = $.parseJSON(responsedata);
+                $('#obatIdDet').val(response.idObat);
                 $('#obatNama').text(response.nama);
                 $('#obatJenis').text(response.jenis);
                 $('#obatStock').text(response.stock);
                 $('#obatHarga').text(response.harga);
+                $('#obatPrice').val(response.harga);
                 $("#obatPhoto").attr("src", "image/" + response.photo);
+                $("#namaSupplier").text(response.supplier.nama);
+                $("#oldPhoto").val(response.photo);
                 $("#quantity").val("1");
                 $('#quantity').attr('max', response.stock);
             }
         })
+        $('#editObat').click(function() {
+            $.ajax({
+                url: 'controller/ObatController.php',
+                type: 'post',
+                data: {
+                    method: "fetchObat",
+                    id: id
+                },
+                success: function(responsedata) {
+                    var response = $.parseJSON(responsedata);
+                    $('#idUpdateObat').val(response.idObat);
+                    $('#nameUpdateObat').val(response.nama);
+                    $('#updateJenis').val(response.jenis);
+                    $('#updateStock').val(response.stock);
+                    $('#updateHarga').val(response.harga);
+                    $("#updatePhoto").attr("src", "image/" + response.photo);
+                    $("#selectUpdate").val(response.supplier.idSupplier).change();
+                }
+            })
+        });
+        $('#deleteConfirm').click(function() {
+            window.location = "index.php?ahref=obat&delcom=1&oid=" + id + "&photo=" + $('#oldPhoto').val();
+        })
+    }
+
+    function viewKeranjang(email) {
+        $.ajax({
+            url: 'controller/KeranjangController.php',
+            type: 'post',
+            data: {
+                method: "fetchKeranjang",
+                email: email
+            },
+            success: function(responsedata) {
+                var response = $.parseJSON(responsedata);
+                var i = 1;
+                $('#isiKeranjang').html('');
+                if (response.length == 0) {
+                    var html = "";
+                    html += '<img src="empty cart.png">';
+                    html += '<h4 style="font-weight:bold; color:black;">Wah, keranjang belanjamu kosong</h4>';
+                    html += '<p style="color:black;">Yuk, isi dengan obat!</p>';
+                    html += '<a href="index.php?ahref=obat">';
+                    html += '<button type="button" id="checkoutKeranjang" class="btn btn-success">Mulai belanja</button>';
+                    html += '</a>';
+                    $('#isiKeranjang').append(html);
+                } else {
+                    var table = "<table class='table'>";
+                    table += '<thead>';
+                    table += '<tr>';
+                    table += '<th scope="col">No.</th>';
+                    table += '<th scope="col">Nama Obat</th>';
+                    table += '<th scope="col">Jumlah</th>';
+                    table += '<th scope="col">Total Harga</th>';
+                    table += '<th scope="col">Action</th>';
+                    table += '<tr>';
+                    table += '<thead>';
+                    table += '<tbody id="isiKeranjangDet">';
+                    $('#isiKeranjang').append(table);
+                    for (var keranjang in response) {
+                        var html = "<tr>";
+                        html += '<td>' + i + '</td>';
+                        html += '<td>' + response[keranjang].obat.nama + '</td>';
+                        html += '<td>' + response[keranjang].jumlah + '</td>';
+                        html += '<td>' + response[keranjang].total + '</td>';
+                        html += '<td><button onclick="deleteKeranjang(\'' + response[keranjang].idKeranjang + '\')" class="btn btn-danger"><i data-fa-symbol="delete" class="fas fa-trash fa-fw"></i></button></td>';
+                        html += "</tr>";
+                        $('#isiKeranjangDet').append(html);
+                        i++;
+                    }
+                    var footer = "";
+                    footer += '<button type="button" id="tambahKeranjang" class="btn btn-primary">Checkout</button>';
+                    footer += '<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>';
+                    $('#buttonFooter').append(footer);
+                }
+            }
+        })
+    }
+
+    function deleteKeranjang(id) {
+        const confirmation = window.confirm("Are you sure want to delete this data?");
+        if (confirmation) {
+            window.location = "index.php?ahref=obat&delkcom=1&kid=" + id;
+        }
     }
 </script>

@@ -51,10 +51,10 @@ class Obat implements JsonSerializable
             $this->supplier = new Supplier();
         }
         switch ($name) {
-            case 'supplier_id':
+            case 'idSupplier':
                 $this->supplier->setIdSupplier($value);
                 break;
-            case 'supplier_name':
+            case 'nama_supplier':
                 $this->supplier->setNama($value);
         }
     }

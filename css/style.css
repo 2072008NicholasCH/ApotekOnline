@@ -2074,6 +2074,19 @@ textarea.form-control {
   .btn.disabled, .btn:disabled {
     opacity: 0.65; }
 
+    .btn-card {
+      position:fixed; 
+      bottom:5%; 
+      right:5em; 
+      z-index:100; 
+      width:4em; 
+      height:4em;
+    }
+    .btn-card:hover {
+      z-index:5;
+      transform: scale(1.1);
+    }
+
 a.btn.disabled,
 fieldset:disabled a.btn {
   pointer-events: none; }
@@ -2081,7 +2094,8 @@ fieldset:disabled a.btn {
 .btn-primary {
   color: #fff;
   background-color: #007bff;
-  border-color: #007bff; }
+  border-color: #007bff;
+  transition: transform .2s; }
   .btn-primary:hover {
     color: #fff;
     background-color: #0069d9;

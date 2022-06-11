@@ -31,6 +31,7 @@ class UserController
                 $_SESSION['web_user'] = true;
                 $_SESSION['web_user_full_name'] = $result->getFirstName() . " " . $result->getLastName();
                 $_SESSION['role'] = $result->getRole();
+                $_SESSION['email'] = $result->getEmail();
                 header('location:index.php');
             }
         }
@@ -71,13 +72,39 @@ class UserController
                     session_start();
                 }
                 if (true) {
-                    $_SESSION['flashMessage'] = 'Sign up successfully. Please login again';
+                    $message = '<i class="fa-solid fa-circle-check"></i> Sign up successfully. Please login again';
+                    $_SESSION['flashMessage'] = "<script> bootoast.toast({
+                        message: '" . $message . "',
+                        type: 'success',
+                        position: 'top'
+                    }); </script>";
                 }
                 header('location:index.php?ahref=login');
             } else {
-                echo '<div class="bg bg-danger">Error on sign up</div>';
+                $message = '<i class="fa-solid fa-circle-xmark"></i> Error on sign up your account';
+                echo "<script> bootoast.toast({
+                    message: '" . $message . "',
+                    type: 'danger',
+                    position: 'top'
+                }); </script>";
             }
         }
         include_once 'view/signup-view.php';
     }
+
+    public function checkEmail($email)
+    {
+        if (isset($email) && $email != '') {
+            $user = $this->userDao->checkEmail($email);
+            echo $user;
+        }
+    }
+}
+
+if (isset($_POST['method']) && $_POST['method'] == "checkEmail") {
+    include_once '../entity/User.php';
+    include_once '../dao/UserDaoImpl.php';
+    include_once '../util/PDOUtil.php';
+    $test = new UserController();
+    $test->checkEmail($_POST['email']);
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Nicholas CH 2072008
  * @author Juan Sterling 2072009
@@ -38,6 +39,23 @@ class UserDaoImpl
             $link->rollBack();
         }
         $link = null;
+        return $result;
+    }
+
+    public function checkEmail($userEmail)
+    {
+        $link = PDOUtil::createConnection();
+        $query = 'SELECT * FROM user WHERE email = ?';
+        $stmt = $link->prepare($query);
+        $stmt->bindParam(1, $userEmail);
+        $stmt->setFetchMode(PDO::FETCH_OBJ);
+        $stmt->execute();
+        $exists = $stmt->fetchObject('User');
+        if (!$exists) {
+            $result = 0;
+        } else {
+            $result = 1;
+        }
         return $result;
     }
 }
