@@ -251,6 +251,11 @@ input[type="datetime-local"],
 input[type="month"] {
   -webkit-appearance: listbox; }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 textarea {
   overflow: auto;
   resize: vertical; }
@@ -3784,7 +3789,32 @@ input[type="button"].btn-block {
   background-color: #fff;
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: 0.25rem; }
+  border-radius: 0.25rem;
+  transition: transform .2s; }
+
+.card:hover {
+  z-index:5;
+  transform: scale(1.1);
+  border: 3px solid #3e64ff;
+}
+
+.card-noHover{
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  pointer-events: none;
+}
   .card > hr {
     margin-right: 0;
     margin-left: 0; }
@@ -3799,7 +3829,7 @@ input[type="button"].btn-block {
   -webkit-box-flex: 1;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
-  padding: 1.25rem; }
+  padding: 10px; }
 
 .card-title {
   margin-bottom: 0.75rem; }

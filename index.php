@@ -18,9 +18,11 @@ include_once 'entity/Transaksi.php';
 
 include_once 'dao/UserDaoImpl.php';
 include_once 'dao/SupplierDaoImpl.php';
+include_once 'dao/ObatDaoImpl.php';
 
 include_once 'controller/UserController.php';
 include_once 'controller/SupplierController.php';
+include_once 'controller/ObatController.php';
 
 if (!isset($_SESSION['web_user'])) {
   $_SESSION['web_user'] = false;
@@ -182,6 +184,10 @@ if (!isset($_SESSION['web_user'])) {
       $suppController = new SupplierController();
       $suppController->index();
       $suppController->updateSupp();
+      break;
+    case 'obat':
+      $obatController = new ObatController();
+      $obatController->index();
       break;
     case 'logout':
       $userController = new UserController();
