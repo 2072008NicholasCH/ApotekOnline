@@ -56,7 +56,12 @@ class KeranjangController
             $keranjang->setJumlah($trimJumlah);
             $keranjang->setTotal($trimTotal);
             $keranjang->getUser()->setEmail($trimEmail);
-            $result = $this->keranjangDao->insertNewKeranjang($keranjang);
+            $test = $this->keranjangDao->fetchKeranjangExists($email, $trimIdObat);
+            if ($test == 1) {
+                $result = $this->keranjangDao->updateKeranjang($keranjang);
+            } else {
+                $result = $this->keranjangDao->insertNewKeranjang($keranjang);
+            }
             if ($result) {
                 $message = '<i class="fa-solid fa-circle-check"></i> Data successfully added';
                 echo "<script> bootoast.toast({

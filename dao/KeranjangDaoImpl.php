@@ -40,6 +40,42 @@ class KeranjangDaoImpl
         return $result;
     }
 
+    public function updateKeranjang(Keranjang $keranjang) {
+        $link = PDOUtil::createConnection();
+        $query = 'UPDATE keranjang SET jumlah = jumlah + ?, total = total + ? WHERE user_email = ? AND obat_idObat = ?';
+        $stmt = $link->prepare($query);
+        $stmt->bindValue(1, $keranjang->getJumlah());
+        $stmt->bindValue(2, $keranjang->getTotal());
+        $stmt->bindValue(3, $keranjang->getUser()->getEmail());
+        $stmt->bindValue(4, $keranjang->getObat()->getIdObat());
+        $stmt->setFetchMode(PDO::FETCH_OBJ);
+        $link->beginTransaction();
+        if ($stmt->execute()) {
+            $link->commit();
+            $result = 1;
+        } else {
+            $link->rollBack();
+        }
+        $link = null;
+        return $result;
+    }
+
+    public function fetchKeranjangExists($email, $idObat) {
+        $link = PDOUtil::createConnection();
+        $query = 'SELECT * FROM keranjang WHERE user_email = ? AND obat_idObat = ?';
+        $stmt = $link->prepare($query);
+        $stmt->bindParam(1, $email);
+        $stmt->bindParam(2, $idObat);
+        $stmt->setFetchMode(PDO::FETCH_OBJ);
+        $stmt->execute();
+        $exists = $stmt->fetchObject('Keranjang');
+        if (!$exists) {
+            $result = 0;
+        } else {
+            $result = 1;
+        }
+        return $result;
+    }
 
     public function deleteKeranjang($idKeranjang)
     {

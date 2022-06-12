@@ -128,4 +128,33 @@ class ObatDaoImpl
         $conn = null;
         return $stmt->fetchAll();
     }
+
+    public function updateStock(Obat $obat) {
+        $result = 0;
+        $conn = PDOUtil::createConnection();
+
+        $query = "UPDATE obat
+        SET stock = CASE
+           WHEN stock - ? >= 0 THEN stock - ?
+           ELSE stock
+        END
+        WHERE idObat = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(1, $obat->getStock());
+        $stmt->bindValue(2, $obat->getStock());
+        $stmt->bindValue(3, $obat->getIdObat());
+        $conn->beginTransaction();
+        if ($stmt->execute()) {
+            $conn->commit();
+            if ($stmt->rowCount() == 0) {
+                $result = 0;
+            } else {
+                $result = 1;
+            }
+        } else {
+            $conn->rollBack();
+        }
+        $conn = null;
+        return $result;
+    }
 }

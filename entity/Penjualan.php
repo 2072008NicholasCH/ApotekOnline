@@ -1,6 +1,6 @@
 <?php
 
-class Penjualan
+class Penjualan implements JsonSerializable
 {
     private $idPenjualan;
     private $tanggal;
@@ -117,6 +117,11 @@ class Penjualan
                 $this->user->setEmail($value);
                 break;
         }
+    }
+
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
     }
 
 

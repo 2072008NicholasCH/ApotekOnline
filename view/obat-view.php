@@ -335,7 +335,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['web_user'])) {
         } else {
             foreach ($obats as $item) {
                 echo '<div class="col-xs-6 mb-4" style="width:15rem;">';
-                if ($item->getStock() == 0) {
+                if ($item->getStock() <= 0) {
                     if ($_SESSION['role'] == "user") {
                         echo '<div class="card-noHover h-100" style="color:black;">
                 <img src="image/' . $item->getPhoto() . '" class="card-img-top" alt="Image" style="width:15rem;">

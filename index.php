@@ -11,7 +11,7 @@ include_once 'util/PDOUtil.php';
 
 include_once 'entity/User.php';
 include_once 'entity/Obat.php';
-include_once 'entity/Obat_has_Penjualan.php';
+include_once 'entity/ObatHasPenjualan.php';
 include_once 'entity/Penjualan.php';
 include_once 'entity/Supplier.php';
 include_once 'entity/Keranjang.php';
@@ -21,12 +21,14 @@ include_once 'dao/SupplierDaoImpl.php';
 include_once 'dao/ObatDaoImpl.php';
 include_once 'dao/KeranjangDaoImpl.php';
 include_once 'dao/PenjualanDaoImpl.php';
+include_once 'dao/ObatHasPenjualanDaoImpl.php';
 
 include_once 'controller/UserController.php';
 include_once 'controller/SupplierController.php';
 include_once 'controller/ObatController.php';
 include_once 'controller/KeranjangController.php';
 include_once 'controller/PenjualanController.php';
+include_once 'controller/ObatHasPenjualanController.php';
 
 if (!isset($_SESSION['web_user'])) {
   $_SESSION['web_user'] = false;
@@ -126,9 +128,19 @@ if (!isset($_SESSION['web_user'])) {
         </li>
 
         <?php
-        if (isset($_SESSION['role']) && $_SESSION['role'] == "admin") {
+        if (isset($_SESSION['role']) && $_SESSION['role'] == "admin" && $_SESSION['web_user']) {
           echo '<li>
           <a class="scroll-link" href="?ahref=penjualan"><i class="fa-solid fa-envelope-open-text"></i> Penjualan</a>
+        </li>';
+        }
+
+        if (isset($_SESSION['role']) && $_SESSION['web_user']) {
+          echo '<li>
+          <a class="scroll-link" href="?ahref=history"><i class="fa-solid fa-capsules"></i> Riwayat Pesanan</a>
+        </li>';
+        } else {
+          echo '<li>
+          <a class="scroll-link" href="?ahref=login"><i class="fa-solid fa-capsules"></i> Riwayat Pesanan</a>
         </li>';
         }
         ?>
@@ -327,6 +339,10 @@ if (!isset($_SESSION['web_user'])) {
     case 'penjualan':
       $penjualanController = new PenjualanController();
       $penjualanController->fetchPenjualan();
+      break;
+    case 'history':
+      $penjualanController = new PenjualanController();
+      $penjualanController->fetchPenjualanUser($_SESSION['email']);
       break;
     case 'checkout':
       $keranjangController = new KeranjangController();

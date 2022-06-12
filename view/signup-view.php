@@ -20,6 +20,11 @@
 </head>
 
 <body>
+    <?php
+    if (isset($_SESSION['loginMessage'])) {
+        unset($_SESSION['loginMessage']);
+    }
+    ?>
     <script>
         $(document).ready(function() {
             document.querySelector('title').textContent = "Sign Up | Apotek Online";

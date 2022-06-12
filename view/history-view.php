@@ -8,11 +8,11 @@
 ?>
 <script>
     $(document).ready(function() {
-        document.querySelector('title').textContent = "Penjualan | Apotek Online";
+        document.querySelector('title').textContent = "Riwayat Pesanan | Apotek Online";
     })
 </script>
 <div class="mt-4 d-flex align-items-center justify-content-center">
-    <h1><a href="index.php?ahref=penjualan" style="color:white;">Penjualan Obat</a></h1>
+    <h1><a href="index.php?ahref=history" style="color:white;">Riwayat Pesanan Obat</a></h1>
 </div>
 
 <!-- Penjualan Detail Modal -->
@@ -37,11 +37,9 @@
 <table id="tableId" class="display">
     <thead>
         <tr>
-            <th>ID Penjualan</th>
             <th>Tanggal</th>
             <th>Total</th>
             <th>Payment</th>
-            <th>User Email</th>
             <th>Details</th>
         </tr>
     </thead>
@@ -52,11 +50,9 @@
          */
         foreach ($penjualan as $item) {
             echo '<tr>';
-            echo '<td>' . $item->getIdPenjualan() . '</td>';
             echo '<td>' . $item->getTanggal() . '</td>';
             echo '<td>' . $item->getTotal() . '</td>';
             echo '<td>' . $item->getPayment() . '</td>';
-            echo '<td>' . $item->getUser()->getEmail() . '</td>';
             echo '<td> <button onclick="viewPenjualanDet(\'' . $item->getIdPenjualan() . '\')" data-toggle="modal" data-target="#penjualanDetailModal" class="btn btn-info" style="
             width: 35px;
 			height: 35px;
@@ -87,7 +83,6 @@
                 table += '<thead>';
                 table += '<tr>';
                 table += '<th scope="col">No.</th>';
-                table += '<th scope="col">ID Obat</th>';
                 table += '<th scope="col">Nama Obat</th>';
                 table += '<th scope="col">Jumlah</th>';
                 table += '<th scope="col">Harga</th>';
@@ -98,7 +93,6 @@
                 for (var item in response) {
                     var html = "<tr>";
                     html += '<td>' + response[item].seq + '</td>';
-                    html += '<td>' + response[item].obat.idObat + '</td>';
                     html += '<td>' + response[item].obat.nama + '</td>';
                     html += '<td>' + response[item].jumlah + '</td>';
                     html += '<td>' + response[item].harga + '</td>';
