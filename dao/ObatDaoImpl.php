@@ -81,6 +81,23 @@ class ObatDaoImpl
         return $result;
     }
 
+    public function checkIdObat($idObat)
+    {
+        $link = PDOUtil::createConnection();
+        $query = 'SELECT * FROM obat WHERE idObat = ?';
+        $stmt = $link->prepare($query);
+        $stmt->bindParam(1, $idObat);
+        $stmt->setFetchMode(PDO::FETCH_OBJ);
+        $stmt->execute();
+        $exists = $stmt->fetchObject('Obat');
+        if (!$exists) {
+            $result = 0;
+        } else {
+            $result = 1;
+        }
+        return $result;
+    }
+
     public function deleteObat($idObat)
     {
         $result = 0;

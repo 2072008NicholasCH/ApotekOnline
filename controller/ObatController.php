@@ -179,6 +179,14 @@ class ObatController
         }
     }
 
+    public function checkIdObat($idObat)
+    {
+        if (isset($idObat) && $idObat != '') {
+            $obat = $this->obatDao->checkIdObat($idObat);
+            echo $obat;
+        }
+    }
+
     public function fetchObat($idObat)
     {
         if (isset($idObat) && $idObat != '') {
@@ -197,6 +205,16 @@ if (isset($_POST['method']) && $_POST['method'] == "fetchObat") {
     include_once '../util/PDOUtil.php';
     $test = new ObatController();
     $test->fetchObat($_POST['id']);
+}
+
+if (isset($_POST['method']) && $_POST['method'] == "checkIdObat") {
+    include_once '../entity/Obat.php';
+    include_once '../entity/Supplier.php';
+    include_once '../dao/ObatDaoImpl.php';
+    include_once '../dao/SupplierDaoImpl.php';
+    include_once '../util/PDOUtil.php';
+    $test = new ObatController();
+    $test->checkIdObat($_POST['id']);
 }
 
 if (isset($_POST['method']) && $_POST['method'] == "searchObat") {

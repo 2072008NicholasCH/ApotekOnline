@@ -20,6 +20,11 @@
 </head>
 
 <body>
+    <script>
+        $(document).ready(function() {
+            document.querySelector('title').textContent = "Sign Up | Apotek Online";
+        })
+    </script>
     <div class="registration-form">
         <form method="post">
             <div class="form-group">
@@ -32,7 +37,7 @@
                 <input type="text" class="form-control item" id="lastName" name="txtLName" placeholder="Last Name" required>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control item" id="email" name="txtEmail" placeholder="Email" required>
+                <input type="email" class="form-control item" id="email" name="txtEmail" placeholder="Email" required>
                 <span id='emailMessage'></span>
             </div>
             <div class="form-group">
@@ -40,7 +45,11 @@
             </div>
             <div class="form-group">
                 <input type="password" class="form-control item" id="confirmPass" name="txtConfirmPass" placeholder="Confirm Password" required onchange='check_pass();'>
+                <input type="checkbox" id="showPassword"><span style="color:black;"> Show Password</span><br>
                 <span id='message'></span>
+            </div>
+            <div class="form-group">
+                <textarea class="form-control item" id="alamat" name="txtAlamat" placeholder="Alamat" required></textarea>
             </div>
             <div class="form-group">
                 <input type="tel" class="form-control item" id="phone" name="txtPhone" placeholder="Phone Number" required>
@@ -56,14 +65,25 @@
             if (document.getElementById('password').value ==
                 document.getElementById('confirmPass').value) {
                 document.getElementById('btnSignup').disabled = false;
-                document.getElementById('message').innerHTML = 'Password Match';
+                document.getElementById('message').innerHTML = '<i class="fa-solid fa-check"></i> Password Match';
                 document.getElementById('message').style.color = 'green';
             } else {
                 document.getElementById('btnSignup').disabled = true;
-                document.getElementById('message').innerHTML = 'Password Not Match';
+                document.getElementById('message').innerHTML = '<i class="fa-solid fa-xmark"></i> Password Not Match';
                 document.getElementById('message').style.color = 'red';
             }
         }
+        $('#showPassword').click(function() {
+            var type = $('#password').attr("type");
+            if (type === 'password') {
+                $('#password').attr("type", "text");
+                $('#confirmPass').attr("type", "text");
+            } else {
+                $('#password').attr("type", "password");
+                $('#confirmPass').attr("type", "password");
+            }
+        })
+
         $('#email').on('keyup', function() {
             $.ajax({
                 url: 'controller/UserController.php',
@@ -75,7 +95,7 @@
                 success: function(responsedata) {
                     if (responsedata == 1) {
                         document.getElementById('btnSignup').disabled = true;
-                        document.getElementById('emailMessage').innerHTML = 'Email has already been used';
+                        document.getElementById('emailMessage').innerHTML = '<i class="fa-solid fa-xmark"></i> Email has already been used';
                         document.getElementById('emailMessage').style.color = 'red';
                     } else {
                         document.getElementById('btnSignup').disabled = false;

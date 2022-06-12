@@ -20,10 +20,19 @@
 </head>
 
 <body>
+    <script>
+        $(document).ready(function() {
+            document.querySelector('title').textContent = "Login | Apotek Online";
+        })
+    </script>
     <?php
     if (isset($_SESSION['flashMessage'])) {
         echo '<div class="bg bg-success" style="text-align:center; color:white;">' . $_SESSION["flashMessage"] . '</div>';
         unset($_SESSION['flashMessage']);
+    }
+    if (isset($_SESSION['loginMessage'])) {
+        echo $_SESSION['loginMessage'];
+        unset($_SESSION['loginMessage']);
     }
     ?>
     <div class="registration-form">
@@ -36,14 +45,25 @@
             </div>
             <div class="form-group">
                 <input type="password" class="form-control item" id="password" name="txtPassword" placeholder="Password">
+                <input type="checkbox" id="showPassword"><span style="color:black;"> Show Password</span>
             </div>
             <div class="form-group">
                 <button type="submit" name="btnLogin" class="btn btn-block create-account">Sign In</button>
             </div>
             <p>Don't have an account? <a href="?ahref=signup">Sign up here</a></p>
         </form>
-        
+
     </div>
+    <script>
+        $('#showPassword').click(function() {
+            var type = $('#password').attr("type");
+            if (type === 'password') {
+                $('#password').attr("type", "text");
+            } else {
+                $('#password').attr("type", "password");
+            }
+        })
+    </script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
     <script src="assets/js/script.js"></script>

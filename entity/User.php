@@ -1,11 +1,12 @@
 <?php
 
-class User
+class User implements JsonSerializable
 {
     private $email;
     private $password;
     private $first_name;
     private $last_name;
+    private $alamat;
     private $phone;
     private $role;
 
@@ -76,6 +77,22 @@ class User
     /**
      * @return mixed
      */
+    public function getAlamat()
+    {
+        return $this->alamat;
+    }
+
+    /**
+     * @param mixed $alamat
+     */
+    public function setAlamat($alamat)
+    {
+        $this->alamat = $alamat;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getPhone()
     {
         return $this->phone;
@@ -103,5 +120,10 @@ class User
     public function setRole($role)
     {
         $this->role = $role;
+    }
+
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
     }
 }

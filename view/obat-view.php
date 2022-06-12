@@ -5,13 +5,32 @@
  * @author Juan Sterling 2072009
  * @author Kevin Laurence 2072030
  */
-?>
 
+
+if (!isset($_SESSION['web_user']) || $_SESSION['web_user'] == false) {
+?>
+    <div class="float-right p-2">
+        <a class="btn btn-primary" href="?ahref=login">Login</a>
+        <a class="btn btn-success" href="?ahref=signup">Sign Up</a>
+    </div>
+<?php
+}
+
+if (isset($_SESSION['paymentComplete'])) {
+    echo $_SESSION['paymentComplete'];
+    unset($_SESSION['paymentComplete']);
+}
+?>
+<script>
+    $(document).ready(function() {
+        document.querySelector('title').textContent = "Obat | Apotek Online";
+    })
+</script>
 <div class="mt-4 d-flex align-items-center justify-content-center">
     <h1><a href="index.php?ahref=obat" style="color:white;">Obat</a></h1>
 </div>
 <?php
-if ($_SESSION['role'] == "admin") {
+if (isset($_SESSION['role']) && $_SESSION['role'] == "admin") {
     echo '<div class="mb-4 d-flex align-items-center justify-content-center">
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addObatModal">
         <i class="fa-solid fa-plus"></i> Add Obat
@@ -32,14 +51,25 @@ if ($_SESSION['role'] == "admin") {
     }
     ?>
 </div>
+
 <?php
 if (isset($_SESSION['updateMessage'])) {
     echo $_SESSION['updateMessage'];
     unset($_SESSION['updateMessage']);
 }
-
-echo '<button onclick="viewKeranjang(\'' . $_SESSION['email'] . '\')"value="Search Obat" class="btn btn-primary btn-card my-2" name="btnSearch" data-toggle="modal" data-target="#keranjangModal"><i class="fa-solid fa-cart-shopping fa-xl"></i></button>';
+if (isset($_SESSION['email']) && isset($_SESSION['web_user'])) {
+    echo '<button onclick="viewKeranjang(\'' . $_SESSION['email'] . '\')" class="btn btn-primary btn-card my-2" name="btnSearch" data-toggle="modal" data-target="#keranjangModal"><i class="fa-solid fa-cart-shopping fa-xl"></i></button>';
+} else {
+    echo '<a href="index.php?ahref=login"><button type="submit" name="loginAgain" class="btn btn-primary btn-card my-2"><i class="fa-solid fa-cart-shopping fa-xl"></i></button></a>';
+    $message = '<i class="fa-solid fa-circle-info"></i> Kamu belum login. Yuk, login terlebih dahulu!';
+    $_SESSION['loginMessage'] = "<script> bootoast.toast({
+                        message: '" . $message . "',
+                        type: 'success',
+                        position: 'top'
+                    }); </script>";
+}
 ?>
+
 <!-- Add Obat Modal -->
 <div class="modal fade" id="addObatModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -57,6 +87,7 @@ echo '<button onclick="viewKeranjang(\'' . $_SESSION['email'] . '\')"value="Sear
                             <p>ID Obat</p>
                         </blockquote>
                         <input type="text" class="form-control" name="txtIdObat" placeholder="ID Obat" autofocus required id="idObat">
+                        <span id='idObatMessage'></span>
                     </div>
                     <div class="form-group">
                         <blockquote class="blockquote">
@@ -103,8 +134,8 @@ echo '<button onclick="viewKeranjang(\'' . $_SESSION['email'] . '\')"value="Sear
                     </div>
             </div>
             <div class="modal-footer">
-                <input type="submit" value="Add Obat" class="btn btn-primary my-2" name="btnSubmit">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <input type="submit" value="Add Obat" class="btn btn-primary my-2" name="btnSubmit" id="addObat">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
             </div>
             </form>
         </div>
@@ -133,13 +164,13 @@ echo '<button onclick="viewKeranjang(\'' . $_SESSION['email'] . '\')"value="Sear
                                 <blockquote class="blockquote">
                                     <p>ID Obat</p>
                                 </blockquote>
-                                <input type="text" class="form-control" name="updateId" placeholder="ID Obat" autofocus required id="idUpdateObat">
+                                <input type="text" class="form-control" name="updateId" placeholder="ID Obat" readonly id="idUpdateObat">
                             </div>
                             <div class="form-group">
                                 <blockquote class="blockquote">
                                     <p>Nama Obat</p>
                                 </blockquote>
-                                <input type="text" class="form-control" name="updateName" placeholder="Nama Obat" required id="nameUpdateObat">
+                                <input type="text" class="form-control" name="updateName" placeholder="Nama Obat" autofocus required id="nameUpdateObat">
                             </div>
                             <div class="form-group">
                                 <blockquote class="blockquote">
@@ -180,8 +211,8 @@ echo '<button onclick="viewKeranjang(\'' . $_SESSION['email'] . '\')"value="Sear
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary my-2" name="btnUpdateSubmit" id="btnUpdate">Update Supplier</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary my-2" name="btnUpdateSubmit" id="btnUpdate">Update obat</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -204,7 +235,7 @@ echo '<button onclick="viewKeranjang(\'' . $_SESSION['email'] . '\')"value="Sear
             </div>
             <div class="modal-footer">
                 <button type="button" id="deleteConfirm" class="btn btn-primary">Delete obat</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
@@ -250,8 +281,10 @@ echo '<button onclick="viewKeranjang(\'' . $_SESSION['email'] . '\')"value="Sear
                             <span style="color:black; font-weight:bold; font-size:x-large; color:#3e64ff" id="obatHarga"></span>
                         </div>
                         <?php
-                        if ($_SESSION['role'] == "admin") {
+                        if (isset($_SESSION['role']) && $_SESSION['role'] == "admin") {
                             echo '<div class="col-auto">
+                        <h4 style="font-weight:bold; color:black;">ID Obat</h4>
+                        <p style="color:black; margin-top:3px;" id="idObatAdmin"></p>
                         <h4 style="font-weight:bold; color:black;">Supplier</h4>
                         <p style="color:black; margin-top:3px;" id="namaSupplier"></p>
                         <button id="editObat" data-dismiss="modal" data-toggle="modal" data-target="#editObatModal" class="btn btn-warning"><i data-fa-symbol="edit" class="fas fa-edit fa-fw"></i></button>
@@ -262,8 +295,14 @@ echo '<button onclick="viewKeranjang(\'' . $_SESSION['email'] . '\')"value="Sear
                     </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" id="keranjangConfirm" name="btnKeranjang" class="btn btn-primary">Masuk keranjang</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <?php
+                if (isset($_SESSION['web_user']) && isset($_SESSION['role'])) {
+                    echo '<button type="submit" id="keranjangConfirm" name="btnKeranjang" class="btn btn-primary">Masuk keranjang</button>';
+                } else {
+                    echo '<a href="index.php?ahref=login"><button type="button" class="btn btn-primary">Masuk keranjang</button></a>';
+                }
+                ?>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
             </div>
             </form>
         </div>
@@ -382,6 +421,7 @@ echo '<button onclick="viewKeranjang(\'' . $_SESSION['email'] . '\')"value="Sear
             success: function(responsedata) {
                 var response = $.parseJSON(responsedata);
                 $('#obatIdDet').val(response.idObat);
+                $('#idObatAdmin').text(response.idObat);
                 $('#obatNama').text(response.nama);
                 $('#obatJenis').text(response.jenis);
                 $('#obatStock').text(response.stock);
@@ -464,14 +504,36 @@ echo '<button onclick="viewKeranjang(\'' . $_SESSION['email'] . '\')"value="Sear
                         $('#isiKeranjangDet').append(html);
                         i++;
                     }
+                    $('#buttonFooter').html('');
                     var footer = "";
-                    footer += '<button type="button" id="tambahKeranjang" class="btn btn-primary">Checkout</button>';
-                    footer += '<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>';
+                    footer += '<a href="index.php?ahref=checkout"><button type="button" id="tambahKeranjang" class="btn btn-primary">Checkout</button></a>';
+                    footer += '<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>';
                     $('#buttonFooter').append(footer);
                 }
             }
         })
     }
+
+    $('#idObat').on('keyup', function() {
+        $.ajax({
+            url: 'controller/ObatController.php',
+            type: 'post',
+            data: {
+                method: "checkIdObat",
+                id: $('#idObat').val()
+            },
+            success: function(responsedata) {
+                if (responsedata == 1) {
+                    document.getElementById('addObat').disabled = true;
+                    document.getElementById('idObatMessage').innerHTML = '<i class="fa-solid fa-xmark"></i> ID Obat has already been used';
+                    document.getElementById('idObatMessage').style.color = 'red';
+                } else {
+                    document.getElementById('addObat').disabled = false;
+                    document.getElementById('idObatMessage').innerHTML = '';
+                }
+            }
+        })
+    })
 
     function deleteKeranjang(id) {
         const confirmation = window.confirm("Are you sure want to delete this data?");

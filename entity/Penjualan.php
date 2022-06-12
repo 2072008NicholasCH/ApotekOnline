@@ -6,7 +6,7 @@ class Penjualan
     private $tanggal;
     private $total;
     private $payment;
-    private $user_email;
+    private $user;
 
     /**
      * @return mixed
@@ -23,23 +23,6 @@ class Penjualan
     {
         $this->user_email = $user_email;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getTransaksiIdTransaksi()
-    {
-        return $this->transaksi_idTransaksi;
-    }
-
-    /**
-     * @param mixed $transaksi_idTransaksi
-     */
-    public function setTransaksiIdTransaksi($transaksi_idTransaksi)
-    {
-        $this->transaksi_idTransaksi = $transaksi_idTransaksi;
-    }
-    private $transaksi_idTransaksi;
 
     /**
      * @return mixed
@@ -104,5 +87,37 @@ class Penjualan
     {
         $this->payment = $payment;
     }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        if (!isset($this->user)) {
+            $this->user = new user();
+        }
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    public function __set($name, $value)
+    {
+        if (!isset($this->user)) {
+            $this->user = new User();
+        }
+        switch ($name) {
+            case 'email':
+                $this->user->setEmail($value);
+                break;
+        }
+    }
+
 
 }

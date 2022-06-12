@@ -20,11 +20,13 @@ include_once 'dao/UserDaoImpl.php';
 include_once 'dao/SupplierDaoImpl.php';
 include_once 'dao/ObatDaoImpl.php';
 include_once 'dao/KeranjangDaoImpl.php';
+include_once 'dao/PenjualanDaoImpl.php';
 
 include_once 'controller/UserController.php';
 include_once 'controller/SupplierController.php';
 include_once 'controller/ObatController.php';
 include_once 'controller/KeranjangController.php';
+include_once 'controller/PenjualanController.php';
 
 if (!isset($_SESSION['web_user'])) {
   $_SESSION['web_user'] = false;
@@ -112,9 +114,6 @@ if (!isset($_SESSION['web_user'])) {
       </div>
 
       <ul class="list-unstyled menu-elements">
-        <li>
-          <a class="scroll-link" href="?ahref=home"><i class="fas fa-home"></i> Home</a>
-        </li>
         <?php
         if (isset($_SESSION['role']) && $_SESSION['role'] == "admin") {
           echo '<li>
@@ -125,32 +124,27 @@ if (!isset($_SESSION['web_user'])) {
         <li>
           <a class="scroll-link" href="?ahref=obat"><i class="fa-solid fa-capsules"></i> Obat</a>
         </li>
-        <li>
-          <a class="scroll-link" href="#section-6"><i class="fas fa-envelope"></i> Contact us</a>
-        </li>
+
+        <?php
+        if (isset($_SESSION['role']) && $_SESSION['role'] == "admin") {
+          echo '<li>
+          <a class="scroll-link" href="?ahref=penjualan"><i class="fa-solid fa-envelope-open-text"></i> Penjualan</a>
+        </li>';
+        }
+        ?>
+
       </ul>
 
       <?php
-      if (isset($_SESSION['web_user']) && $_SESSION['web_user']) {
-        echo '<div class="sign-out">
-            <a class="btn btn-danger w-75" role="button" onclick="logOut()">Sign out</a>
-            <script>
-                function logOut() {
-                    const confirm = window.confirm("Are you sure want to sign out?");
-                    if (confirm) {
-                        window.location = "index.php?ahref=logout";
-                    }
-                }
-            </script>
-        </div>';
+      if (isset($_SESSION['profileMessage'])) {
+        echo $_SESSION['profileMessage'];
+        unset($_SESSION['profileMessage']);
       }
       ?>
 
     </nav>
     <!-- End sidebar -->
-    <!-- <div class="background">
-      <h1>Halaman Home</h1>
-    </div> -->
+
     <!-- Content -->
     <div class="content">
       <!-- open sidebar menu -->
@@ -160,20 +154,156 @@ if (!isset($_SESSION['web_user'])) {
 
     </div>
     <!-- End content -->
+    <?php
+    if (isset($_SESSION['web_user']) && $_SESSION['web_user']) {
+    ?>
+      <div class="d-flex align-items-center justify-content-end" style="position:fixed; z-index:200; right:3rem; top:30px;"><a data-toggle="dropdown" href="" style="text-decoration:none; color: inherit;"><i class="fa-solid fa-circle-user fa-3x"></i></a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:center; padding:20px; margin-right:25px;">
+          <?php
+          echo '<i class="fa-solid fa-circle-user fa-5x"></i>';
+          echo '<li>' . $_SESSION['web_user_full_name'] . '</li>';
+          echo '<li>' . $_SESSION['email'] . '</li>';
+          echo '<button id="editProfile" onclick="viewProfile(\'' . $_SESSION['email'] . '\')" class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>';
+          echo '<button class="btn btn-danger mt-2" data-toggle="modal" data-target="#signOutModal">Sign Out</button>';
+          ?>
+        </ul>
+      </div>
 
+      <!-- Edit Profile Modal -->
+      <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit Profile</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form method="post">
+                <div class="form-group">
+                  <blockquote class="blockquote">
+                    <p>Email</p>
+                  </blockquote>
+                  <input type="text" class="form-control" name="txtEmail" placeholder="Email" readonly id="profileEmail">
+                </div>
+                <div class="form-group">
+                  <blockquote class="blockquote">
+                    <p>First Name</p>
+                  </blockquote>
+                  <input type="text" class="form-control" name="txtFName" placeholder="First Name" autofocus required id="profileFName">
+                </div>
+                <div class="form-group">
+                  <blockquote class="blockquote">
+                    <p>Last Name</p>
+                  </blockquote>
+                  <input type="text" class="form-control" name="txtLName" placeholder="Last Name" required id="profileLName">
+                </div>
+                <div class="form-group">
+                  <blockquote class="blockquote">
+                    <p>Alamat</p>
+                  </blockquote>
+                  <textarea class="form-control item" name="txtAlamat" placeholder="Alamat" required id="profileAlamat"></textarea>
+                </div>
+                <div class="form-group">
+                  <blockquote class="blockquote">
+                    <p>No. Telp</p>
+                  </blockquote>
+                  <input type="text" class="form-control" name="txtPhone" placeholder="No. Telp" required id="profilePhone">
+                </div>
+                <div class="form-group">
+                  <blockquote class="blockquote">
+                    <p>Confirm Password</p>
+                  </blockquote>
+                  <input type="password" class="form-control" name="txtPass" placeholder="Confirm Password" required id="profilePassword">
+                  <input type="checkbox" id="showPassword"><span style="color:black;"> Show Password</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <input type="submit" value="Edit Profile" class="btn btn-primary my-2" name="btnEdit" id="btnEdit">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sign Out Modal -->
+      <div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Sign out confirmation</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <span style="color:black;">Are you sure want to sign out?</span>
+            </div>
+            <div class="modal-footer">
+              <button type="button" onclick="logOut()" class="btn btn-primary">Sign out</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        function logOut() {
+          window.location = "index.php?ahref=logout";
+        }
+      </script>
+    <?php
+    }
+    ?>
   </div>
   <!-- End wrapper -->
+  <script>
+    $('#showPassword').click(function() {
+      var type = $('#profilePassword').attr("type");
+      if (type === 'password') {
+        $('#profilePassword').attr("type", "text");
+      } else {
+        $('#profilePassword').attr("type", "password");
+      }
+    })
 
+    $(document).on('click', '.dropdown-menu', function(e) {
+      e.stopPropagation();
+    });
+    $('#editProfile').click(function() {
+      $('.dropdown-menu').attr('class', 'dropdown-menu');
+    })
+
+    function viewProfile(email) {
+      $.ajax({
+        url: 'controller/UserController.php',
+        type: 'post',
+        data: {
+          method: "fetchUser",
+          email: email
+        },
+        success: function(responsedata) {
+          var response = $.parseJSON(responsedata);
+          console.log(response.alamat);
+          $('#profileEmail').val(response.email);
+          $('#profileFName').val(response.first_name);
+          $('#profileLName').val(response.last_name);
+          $("textarea#profileAlamat").val(response.alamat);
+          $('#profilePhone').val(response.phone);
+        }
+      })
+    }
+  </script>
   <?php
   $_SESSION['message'] = "";
   // if ($_SESSION['web_user']) {
   //   ob_start();
-
+  $userController = new UserController();
+  $userController->updateProfile();
   $menu = filter_input(INPUT_GET, 'ahref');
   switch ($menu) {
-    case 'home':
-      include_once 'view/home-view.php';
-      break;
     case 'login':
       $userController = new UserController();
       $userController->index();
@@ -193,14 +323,31 @@ if (!isset($_SESSION['web_user'])) {
       $obatController->index();
       $obatController->updateObat();
       $keranjangController->index();
-      include_once 'view/obat-view.php';
+      break;
+    case 'penjualan':
+      $penjualanController = new PenjualanController();
+      $penjualanController->fetchPenjualan();
+      break;
+    case 'checkout':
+      $keranjangController = new KeranjangController();
+      $penjualanController = new PenjualanController();
+      $keranjangController->keranjangCheckout($_SESSION['email']);
+      $penjualanController->index();
+      break;
+    case 'logout':
+      $userController = new UserController();
+      $userController->logout();
       break;
     case 'logout':
       $userController = new UserController();
       $userController->logout();
       break;
     default:
-      include_once 'view/home-view.php';
+      $obatController = new ObatController();
+      $keranjangController = new KeranjangController();
+      $obatController->index();
+      $obatController->updateObat();
+      $keranjangController->index();
   }
   // } else {
   //   $userController = new UserController();

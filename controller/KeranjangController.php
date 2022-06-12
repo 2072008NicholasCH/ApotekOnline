@@ -81,6 +81,13 @@ class KeranjangController
             echo json_encode($cart);
         }
     }
+
+    public function keranjangCheckout($email) {
+        if (isset($email) && $email != '') {
+            $cartItem = $this->keranjangDao->fetchKeranjang($email);
+        }
+        include_once 'view/checkout-view.php';
+    }
 }
 
 if (isset($_POST['method']) && $_POST['method'] == "fetchKeranjang") {

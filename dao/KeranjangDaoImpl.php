@@ -40,6 +40,7 @@ class KeranjangDaoImpl
         return $result;
     }
 
+
     public function deleteKeranjang($idKeranjang)
     {
         $result = 0;
@@ -48,6 +49,25 @@ class KeranjangDaoImpl
         $query = "DELETE FROM keranjang WHERE idKeranjang = ?";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(1, $idKeranjang);
+        $conn->beginTransaction();
+        if ($stmt->execute()) {
+            $conn->commit();
+            $result = 1;
+        } else {
+            $conn->rollBack();
+        }
+        $conn = null;
+        return $result;
+    }
+
+    public function deleteAllKeranjang($email)
+    {
+        $result = 0;
+        $conn = PDOUtil::createConnection();
+
+        $query = "DELETE FROM keranjang WHERE user_email = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(1, $email);
         $conn->beginTransaction();
         if ($stmt->execute()) {
             $conn->commit();

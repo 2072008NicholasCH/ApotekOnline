@@ -6,6 +6,11 @@
  * @author Kevin Laurence 2072030
  */
 ?>
+<script>
+    $(document).ready(function() {
+        document.querySelector('title').textContent = "Supplier | Apotek Online";
+    })
+</script>
 <div class="mt-4 d-flex align-items-center justify-content-center">
     <h1><a href="index.php?ahref=supplier" style="color:white;">Supplier Obat</a></h1>
 </div>
@@ -60,7 +65,7 @@ if (isset($_SESSION['updateMessage'])) {
             </div>
             <div class="modal-footer">
                 <input type="submit" value="Add Supplier" class="btn btn-primary my-2" name="btnSubmit">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
             </div>
             </form>
         </div>
@@ -112,7 +117,7 @@ if (isset($_SESSION['updateMessage'])) {
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary my-2" name="btnUpdateSubmit" id="btnUpdate">Update Supplier</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
             </div>
             </form>
         </div>
@@ -134,7 +139,7 @@ if (isset($_SESSION['updateMessage'])) {
             </div>
             <div class="modal-footer">
                 <button type="button" id="deleteConfirm" class="btn btn-primary">Delete supplier</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
@@ -192,7 +197,7 @@ if (isset($_SESSION['updateMessage'])) {
             }
         })
     }
-    
+
     function deleteSupp(id) {
         $('#deleteConfirm').click(function() {
             window.location = "index.php?ahref=supplier&delcom=1&sid=" + id;
