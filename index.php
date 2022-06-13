@@ -43,9 +43,11 @@ if (!isset($_SESSION['web_user'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="description" content="Colorlib Templates">
+  <meta name="description" content="Apotek Online">
   <meta name="author" content="Nicholas CH - 2072008">
-  <meta name="keywords" content="Colorlib Templates">
+  <meta name="author" content="Juan Sterling 2072009">
+  <meta name="author" content="Kevin Laurence 2072030">
+  <meta name="keywords" content="Apotek Online">
 
   <title>Apotek Online</title>
 
