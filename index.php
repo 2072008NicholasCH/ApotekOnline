@@ -136,11 +136,11 @@ if (!isset($_SESSION['web_user'])) {
 
         if (isset($_SESSION['role']) && $_SESSION['web_user']) {
           echo '<li>
-          <a class="scroll-link" href="?ahref=history"><i class="fa-solid fa-capsules"></i> Riwayat Pesanan</a>
+          <a class="scroll-link" href="?ahref=history"><i class="fa-solid fa-clock-rotate-left"></i> Riwayat Pesanan</a>
         </li>';
         } else {
           echo '<li>
-          <a class="scroll-link" href="?ahref=login"><i class="fa-solid fa-capsules"></i> Riwayat Pesanan</a>
+          <a class="scroll-link" href="?ahref=login"><i class="fa-solid fa-clock-rotate-left"></i> Riwayat Pesanan</a>
         </li>';
         }
         ?>
