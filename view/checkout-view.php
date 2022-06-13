@@ -61,7 +61,7 @@
                             </button>
                         </div>
                         <div class="modal-body" style="text-align:center; color:black;">
-                            <p>Untuk kemudahan konfirmasi, Anda bisa menuliskan berita transfer INV55926 atau jika tidak memungkinkan Anda bisa mentransfer dengan angka/jumlah transfer yang unik. Misalnya Rp 2886926</p>
+                            <p>Untuk kemudahan konfirmasi, Anda bisa menuliskan berita transfer pembelian atas nama siapa.</p>
                             <img id="qrImage">
                         </div>
                         <div class="modal-footer">
